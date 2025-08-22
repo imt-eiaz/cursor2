@@ -1,11 +1,11 @@
-const { Pool } = require('pg');
-require('dotenv').config();
+const { Pool } = require("pg");
+require("dotenv").config();
 
 const pool = new Pool({
-  user: process.env.DB_USER || 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  database: process.env.DB_NAME || 'phone_repair_shop',
-  password: process.env.DB_PASSWORD || 'password',
+  user: process.env.DB_USER || "postgres",
+  host: process.env.DB_HOST || "localhost",
+  database: process.env.DB_NAME || "phone_repair_shop",
+  password: process.env.DB_PASSWORD || "password",
   port: process.env.DB_PORT || 5432,
 });
 
@@ -77,9 +77,9 @@ const createTables = async () => {
       )
     `);
 
-    console.log('Database tables created successfully');
+    console.log("Database tables created successfully");
   } catch (error) {
-    console.error('Error creating tables:', error);
+    console.error("Error creating tables:", error);
   }
 };
 
@@ -87,7 +87,7 @@ const createTables = async () => {
 const insertSampleData = async () => {
   try {
     // Check if data already exists
-    const customerCount = await pool.query('SELECT COUNT(*) FROM customers');
+    const customerCount = await pool.query("SELECT COUNT(*) FROM customers");
     if (parseInt(customerCount.rows[0].count) === 0) {
       // Insert sample customers
       await pool.query(`
@@ -116,10 +116,10 @@ const insertSampleData = async () => {
         (5, 15, 5)
       `);
 
-      console.log('Sample data inserted successfully');
+      console.log("Sample data inserted successfully");
     }
   } catch (error) {
-    console.error('Error inserting sample data:', error);
+    console.error("Error inserting sample data:", error);
   }
 };
 

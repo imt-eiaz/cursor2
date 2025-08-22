@@ -1,47 +1,47 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { 
-  Home, 
-  Users, 
-  Package, 
-  ShoppingCart, 
+import React from "react";
+import { NavLink } from "react-router-dom";
+import {
+  Home,
+  Users,
+  Package,
+  ShoppingCart,
   BarChart3,
   Smartphone,
-  Wrench
-} from 'lucide-react';
+  Wrench,
+} from "lucide-react";
 
 const Sidebar = () => {
   const menuItems = [
     {
-      path: '/',
-      name: 'Dashboard',
+      path: "/",
+      name: "Dashboard",
       icon: Home,
-      description: 'Overview and analytics'
+      description: "Overview and analytics",
     },
     {
-      path: '/customers',
-      name: 'Customers',
+      path: "/customers",
+      name: "Customers",
       icon: Users,
-      description: 'Manage customer database'
+      description: "Manage customer database",
     },
     {
-      path: '/items',
-      name: 'Items',
+      path: "/items",
+      name: "Items",
       icon: Package,
-      description: 'Products and services'
+      description: "Products and services",
     },
     {
-      path: '/sales',
-      name: 'Sales',
+      path: "/sales",
+      name: "Sales",
       icon: ShoppingCart,
-      description: 'Track transactions'
+      description: "Track transactions",
     },
     {
-      path: '/inventory',
-      name: 'Inventory',
+      path: "/inventory",
+      name: "Inventory",
       icon: BarChart3,
-      description: 'Stock management'
-    }
+      description: "Stock management",
+    },
   ];
 
   return (
@@ -52,7 +52,9 @@ const Sidebar = () => {
             <Smartphone className="h-6 w-6 text-primary-600" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">PhoneFix Pro</h2>
+            <h2 className="text-lg font-semibold text-gray-900">
+              PhoneBox Gadgets
+            </h2>
             <p className="text-sm text-gray-500">Repair & Accessories</p>
           </div>
         </div>
@@ -67,8 +69,8 @@ const Sidebar = () => {
                 className={({ isActive }) =>
                   `flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 group ${
                     isActive
-                      ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-600'
-                      : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      ? "bg-primary-50 text-primary-700 border-r-2 border-primary-600"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                   }`
                 }
               >
@@ -89,7 +91,9 @@ const Sidebar = () => {
             <Wrench className="h-5 w-5" />
             <div>
               <div className="font-medium text-sm">Professional Service</div>
-              <div className="text-xs text-gray-500">Quality repairs guaranteed</div>
+              <div className="text-xs text-gray-500">
+                Quality repairs guaranteed
+              </div>
             </div>
           </div>
         </div>

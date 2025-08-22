@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { Menu, LogOut, User, Settings } from 'lucide-react';
+import React, { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { Menu, LogOut, User, Settings } from "lucide-react";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -18,7 +18,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <h1 className="text-2xl font-bold text-primary-600">
-                PhoneFix Pro
+                PhoneBox Gadgets
               </h1>
             </div>
           </div>
@@ -42,7 +42,7 @@ const Navbar = () => {
                     <div className="font-medium">{user?.username}</div>
                     <div className="text-gray-500">{user?.email}</div>
                   </div>
-                  
+
                   <button
                     onClick={() => setIsMenuOpen(false)}
                     className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
@@ -50,7 +50,7 @@ const Navbar = () => {
                     <Settings className="h-4 w-4" />
                     <span>Settings</span>
                   </button>
-                  
+
                   <button
                     onClick={handleLogout}
                     className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center space-x-2"
