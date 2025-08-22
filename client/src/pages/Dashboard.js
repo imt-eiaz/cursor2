@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Users, 
-  Package, 
-  ShoppingCart, 
+import React, { useState, useEffect } from "react";
+import {
+  Users,
+  Package,
+  ShoppingCart,
   BarChart3,
   TrendingUp,
   AlertTriangle,
-  DollarSign
-} from 'lucide-react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+  DollarSign,
+} from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -17,7 +17,7 @@ const Dashboard = () => {
     items: 0,
     sales: 0,
     revenue: 0,
-    lowStock: 0
+    lowStock: 0,
   });
   const [recentSales, setRecentSales] = useState([]);
   const [lowStockItems, setLowStockItems] = useState([]);
@@ -30,39 +30,47 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch customers count
-      const customersResponse = await axios.get('http://localhost:5000/api/customers');
-      
+      const customersResponse = await axios.get(
+        "http://localhost:5000/api/customers"
+      );
+
       // Fetch items count
-      const itemsResponse = await axios.get('http://localhost:5000/api/items');
-      
+      const itemsResponse = await axios.get("http://localhost:5000/api/items");
+
       // Fetch recent sales
-      const salesResponse = await axios.get('http://localhost:5000/api/sales');
-      
+      const salesResponse = await axios.get("http://localhost:5000/api/sales");
+
       // Fetch inventory summary
-      const inventoryResponse = await axios.get('http://localhost:5000/api/inventory/summary');
-      
+      const inventoryResponse = await axios.get(
+        "http://localhost:5000/api/inventory/summary"
+      );
+
       // Fetch low stock items
-      const lowStockResponse = await axios.get('http://localhost:5000/api/inventory/low-stock');
+      const lowStockResponse = await axios.get(
+        "http://localhost:5000/api/inventory/low-stock"
+      );
 
       // Calculate revenue from sales
-      const totalRevenue = salesResponse.data.reduce((sum, sale) => sum + parseFloat(sale.total_amount), 0);
+      const totalRevenue = salesResponse.data.reduce(
+        (sum, sale) => sum + parseFloat(sale.total_amount),
+        0
+      );
 
       setStats({
         customers: customersResponse.data.length,
         items: itemsResponse.data.length,
         sales: salesResponse.data.length,
         revenue: totalRevenue,
-        lowStock: inventoryResponse.data.summary.low_stock
+        lowStock: inventoryResponse.data.summary.low_stock,
       });
 
       setRecentSales(salesResponse.data.slice(0, 5));
       setLowStockItems(lowStockResponse.data.slice(0, 5));
-
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-      toast.error('Failed to load dashboard data');
+      console.error("Error fetching dashboard data:", error);
+      toast.error("Failed to load dashboard data");
     } finally {
       setLoading(false);
     }
@@ -95,7 +103,9 @@ const Dashboard = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600">Welcome to PhoneFix Pro - Your phone repair management system</p>
+        <p className="text-gray-600">
+          Welcome to PhoneBox Gadgets - Your phone repair management system
+        </p>
       </div>
 
       {/* Stats Grid */}
@@ -143,15 +153,22 @@ const Dashboard = () => {
             {recentSales.length > 0 ? (
               <div className="space-y-4">
                 {recentSales.map((sale) => (
-                  <div key={sale.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div
+                    key={sale.id}
+                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                  >
                     <div>
-                      <p className="font-medium text-gray-900">{sale.item_name || 'Unknown Item'}</p>
+                      <p className="font-medium text-gray-900">
+                        {sale.item_name || "Unknown Item"}
+                      </p>
                       <p className="text-sm text-gray-500">
                         {sale.first_name} {sale.last_name} • {sale.quantity}x
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-medium text-gray-900">${sale.total_amount}</p>
+                      <p className="font-medium text-gray-900">
+                        ${sale.total_amount}
+                      </p>
                       <p className="text-xs text-gray-500">
                         {new Date(sale.sale_date).toLocaleDateString()}
                       </p>
@@ -177,7 +194,10 @@ const Dashboard = () => {
             {lowStockItems.length > 0 ? (
               <div className="space-y-4">
                 {lowStockItems.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-200">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-200"
+                  >
                     <div>
                       <p className="font-medium text-gray-900">{item.name}</p>
                       <p className="text-sm text-red-600">
@@ -193,7 +213,9 @@ const Dashboard = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 text-center py-4">All items are well stocked</p>
+              <p className="text-gray-500 text-center py-4">
+                All items are well stocked
+              </p>
             )}
           </div>
         </div>
@@ -201,7 +223,9 @@ const Dashboard = () => {
 
       {/* Quick Actions */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">
+          Quick Actions
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors duration-200">
             <div className="text-center">
@@ -214,7 +238,9 @@ const Dashboard = () => {
             <div className="text-center">
               <Package className="h-8 w-8 text-gray-400 mx-auto mb-2" />
               <p className="text-sm font-medium text-gray-900">Add Item</p>
-              <p className="text-xs text-gray-500">Create new product/service</p>
+              <p className="text-xs text-gray-500">
+                Create new product/service
+              </p>
             </div>
           </button>
           <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors duration-200">
