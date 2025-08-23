@@ -1,20 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, Search, Edit, Trash2, User, Mail, Phone, MapPin } from 'lucide-react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import React, { useState, useEffect } from "react";
+import {
+  Plus,
+  Search,
+  Edit,
+  Trash2,
+  User,
+  Mail,
+  Phone,
+  MapPin,
+} from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState(null);
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: '',
-    address: ''
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    address: "",
+    status: "",
   });
 
   useEffect(() => {
@@ -24,11 +34,11 @@ const Customers = () => {
   const fetchCustomers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/customers');
+      const response = await axios.get("http://localhost:5000/api/customers");
       setCustomers(response.data);
     } catch (error) {
-      console.error('Error fetching customers:', error);
-      toast.error('Failed to load customers');
+      console.error("Error fetching customers:", error);
+      toast.error("Failed to load customers");
     } finally {
       setLoading(false);
     }
@@ -36,23 +46,26 @@ const Customers = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       if (editingCustomer) {
-        await axios.put(`http://localhost:5000/api/customers/${editingCustomer.id}`, formData);
-        toast.success('Customer updated successfully');
+        await axios.put(
+          `http://localhost:5000/api/customers/${editingCustomer.id}`,
+          formData
+        );
+        toast.success("Customer updated successfully");
       } else {
-        await axios.post('http://localhost:5000/api/customers', formData);
-        toast.success('Customer created successfully');
+        await axios.post("http://localhost:5000/api/customers", formData);
+        toast.success("Customer created successfully");
       }
-      
+
       setShowModal(false);
       setEditingCustomer(null);
       resetForm();
       fetchCustomers();
     } catch (error) {
-      console.error('Error saving customer:', error);
-      toast.error(error.response?.data?.error || 'Failed to save customer');
+      console.error("Error saving customer:", error);
+      toast.error(error.response?.data?.error || "Failed to save customer");
     }
   };
 
@@ -62,32 +75,34 @@ const Customers = () => {
       first_name: customer.first_name,
       last_name: customer.last_name,
       email: customer.email,
-      phone: customer.phone || '',
-      address: customer.address || ''
+      phone: customer.phone || "",
+      address: customer.address || "",
+      status: customer.status,
     });
     setShowModal(true);
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this customer?')) {
+    if (window.confirm("Are you sure you want to delete this customer?")) {
       try {
         await axios.delete(`http://localhost:5000/api/customers/${id}`);
-        toast.success('Customer deleted successfully');
+        toast.success("Customer deleted successfully");
         fetchCustomers();
       } catch (error) {
-        console.error('Error deleting customer:', error);
-        toast.error('Failed to delete customer');
+        console.error("Error deleting customer:", error);
+        toast.error("Failed to delete customer");
       }
     }
   };
 
   const resetForm = () => {
     setFormData({
-      first_name: '',
-      last_name: '',
-      email: '',
-      phone: '',
-      address: ''
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone: "",
+      address: "",
+      status: "",
     });
   };
 
@@ -97,11 +112,12 @@ const Customers = () => {
     setShowModal(true);
   };
 
-  const filteredCustomers = customers.filter(customer =>
-    customer.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (customer.phone && customer.phone.includes(searchTerm))
+  const filteredCustomers = customers.filter(
+    (customer) =>
+      customer.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (customer.phone && customer.phone.includes(searchTerm))
   );
 
   if (loading) {
@@ -153,6 +169,7 @@ const Customers = () => {
                 <th className="table-header">Address</th>
                 <th className="table-header">Joined</th>
                 <th className="table-header">Actions</th>
+                <th className="table-header">Status</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -188,7 +205,9 @@ const Customers = () => {
                     {customer.address ? (
                       <div className="flex items-center text-sm text-gray-500">
                         <MapPin className="h-4 w-4 mr-2 text-gray-400" />
-                        <span className="truncate max-w-xs">{customer.address}</span>
+                        <span className="truncate max-w-xs">
+                          {customer.address}
+                        </span>
                       </div>
                     ) : (
                       <span className="text-gray-400 text-sm">No address</span>
@@ -213,18 +232,35 @@ const Customers = () => {
                       </button>
                     </div>
                   </td>
+                  <td className="table-cell">
+                    <p>Pending</p>
+
+                    {customer.status ? (
+                      <div className="flex items-center text-sm text-gray-500">
+                        <span className="truncate max-w-xs">
+                          {customer.statuss}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-gray-400 text-sm">No address</span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        
+
         {filteredCustomers.length === 0 && (
           <div className="text-center py-12">
             <User className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No customers found</h3>
+            <h3 className="mt-2 text-sm font-medium text-gray-900">
+              No customers found
+            </h3>
             <p className="mt-1 text-sm text-gray-500">
-              {searchTerm ? 'Try adjusting your search terms.' : 'Get started by creating a new customer.'}
+              {searchTerm
+                ? "Try adjusting your search terms."
+                : "Get started by creating a new customer."}
             </p>
           </div>
         )}
@@ -236,64 +272,98 @@ const Customers = () => {
           <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
             <div className="mt-3">
               <h3 className="text-lg font-medium text-gray-900 mb-4">
-                {editingCustomer ? 'Edit Customer' : 'Add New Customer'}
+                {editingCustomer ? "Edit Customer" : "Add New Customer"}
               </h3>
-              
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">First Name</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      First Name
+                    </label>
                     <input
                       type="text"
                       required
                       value={formData.first_name}
-                      onChange={(e) => setFormData({...formData, first_name: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({ ...formData, first_name: e.target.value })
+                      }
                       className="input-field mt-1"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Last Name</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Last Name
+                    </label>
                     <input
                       type="text"
                       required
                       value={formData.last_name}
-                      onChange={(e) => setFormData({...formData, last_name: e.target.value})}
+                      onChange={(e) =>
+                        setFormData({ ...formData, last_name: e.target.value })
+                      }
                       className="input-field mt-1"
                     />
                   </div>
                 </div>
-                
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Email</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Email
+                  </label>
                   <input
                     type="email"
                     required
                     value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     className="input-field mt-1"
                   />
                 </div>
-                
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Phone</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Phone
+                  </label>
                   <input
                     type="tel"
                     value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
                     className="input-field mt-1"
                   />
                 </div>
-                
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Address</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Status
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.status}
+                    onChange={(e) =>
+                      setFormData({ ...formData, status: e.target.value })
+                    }
+                    className="input-field mt-1"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Address
+                  </label>
                   <textarea
                     value={formData.address}
-                    onChange={(e) => setFormData({...formData, address: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, address: e.target.value })
+                    }
                     rows="3"
                     className="input-field mt-1"
                   />
                 </div>
-                
+
                 <div className="flex justify-end space-x-3 pt-4">
                   <button
                     type="button"
@@ -307,7 +377,7 @@ const Customers = () => {
                     Cancel
                   </button>
                   <button type="submit" className="btn-primary">
-                    {editingCustomer ? 'Update' : 'Create'}
+                    {editingCustomer ? "Update" : "Create"}
                   </button>
                 </div>
               </form>

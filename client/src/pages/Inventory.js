@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, Search, Edit, BarChart3, AlertTriangle, Package } from 'lucide-react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import React, { useState, useEffect } from "react";
+import {
+  Plus,
+  Search,
+  Edit,
+  BarChart3,
+  AlertTriangle,
+  Package,
+} from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Inventory = () => {
   const [inventory, setInventory] = useState([]);
@@ -14,11 +21,12 @@ const Inventory = () => {
   const fetchInventory = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/inventory');
+      const response = await axios.get("http://localhost:5000/api/inventory");
       setInventory(response.data);
+      console.log(response.data);
     } catch (error) {
-      console.error('Error fetching inventory:', error);
-      toast.error('Failed to load inventory');
+      console.error("Error fetching inventory:", error);
+      toast.error("Failed to load inventory");
     } finally {
       setLoading(false);
     }
@@ -26,12 +34,12 @@ const Inventory = () => {
 
   const getStockStatusColor = (status) => {
     switch (status) {
-      case 'Low Stock':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'Out of Stock':
-        return 'bg-red-100 text-red-800';
+      case "Low Stock":
+        return "bg-yellow-100 text-yellow-800";
+      case "Out of Stock":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-green-100 text-green-800';
+        return "bg-green-100 text-green-800";
     }
   };
 
@@ -48,7 +56,9 @@ const Inventory = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Inventory</h1>
-          <p className="text-gray-600">Monitor your stock levels and inventory status</p>
+          <p className="text-gray-600">
+            Monitor your stock levels and inventory status
+          </p>
         </div>
         <button className="btn-primary flex items-center space-x-2">
           <Plus className="h-5 w-5" />
@@ -65,11 +75,13 @@ const Inventory = () => {
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Total Items</p>
-              <p className="text-2xl font-semibold text-gray-900">{inventory.length}</p>
+              <p className="text-2xl font-semibold text-gray-900">
+                {inventory.length}
+              </p>
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center">
             <div className="p-3 bg-green-100 rounded-lg">
@@ -78,12 +90,15 @@ const Inventory = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">In Stock</p>
               <p className="text-2xl font-semibold text-gray-900">
-                {inventory.filter(item => item.stock_status === 'In Stock').length}
+                {
+                  inventory.filter((item) => item.stock_status === "In Stock")
+                    .length
+                }
               </p>
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center">
             <div className="p-3 bg-yellow-100 rounded-lg">
@@ -92,12 +107,15 @@ const Inventory = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Low Stock</p>
               <p className="text-2xl font-semibold text-gray-900">
-                {inventory.filter(item => item.stock_status === 'Low Stock').length}
+                {
+                  inventory.filter((item) => item.stock_status === "Low Stock")
+                    .length
+                }
               </p>
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center">
             <div className="p-3 bg-red-100 rounded-lg">
@@ -106,7 +124,11 @@ const Inventory = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Out of Stock</p>
               <p className="text-2xl font-semibold text-gray-900">
-                {inventory.filter(item => item.stock_status === 'Out of Stock').length}
+                {
+                  inventory.filter(
+                    (item) => item.stock_status === "Out of Stock"
+                  ).length
+                }
               </p>
             </div>
           </div>
@@ -137,9 +159,13 @@ const Inventory = () => {
                         <Package className="h-5 w-5 text-primary-600" />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{item.name}</div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {item.name}
+                        </div>
                         {item.sku && (
-                          <div className="text-xs text-gray-500 font-mono">{item.sku}</div>
+                          <div className="text-xs text-gray-500 font-mono">
+                            {item.sku}
+                          </div>
                         )}
                       </div>
                     </div>
@@ -150,11 +176,19 @@ const Inventory = () => {
                     </span>
                   </td>
                   <td className="table-cell">
-                    <div className="text-sm font-medium text-gray-900">{item.quantity}</div>
+                    <div className="text-sm font-medium text-gray-900">
+                      {item.quantity}
+                    </div>
                   </td>
-                  <td className="table-cell text-sm text-gray-500">{item.min_stock_level}</td>
+                  <td className="table-cell text-sm text-gray-500">
+                    {item.min_stock_level}
+                  </td>
                   <td className="table-cell">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStockStatusColor(item.stock_status)}`}>
+                    <span
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStockStatusColor(
+                        item.stock_status
+                      )}`}
+                    >
                       {item.stock_status}
                     </span>
                   </td>
@@ -173,18 +207,23 @@ const Inventory = () => {
             </tbody>
           </table>
         </div>
-        
+
         {inventory.length === 0 && (
           <div className="text-center py-12">
             <Package className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No inventory found</h3>
-            <p className="mt-1 text-sm text-gray-500">Add items to start tracking inventory.</p>
+            <h3 className="mt-2 text-sm font-medium text-gray-900">
+              No inventory found
+            </h3>
+            <p className="mt-1 text-sm text-gray-500">
+              Add items to start tracking inventory.
+            </p>
           </div>
         )}
       </div>
 
       {/* Low Stock Alerts */}
-      {inventory.filter(item => item.stock_status !== 'In Stock').length > 0 && (
+      {inventory.filter((item) => item.stock_status !== "In Stock").length >
+        0 && (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
           <div className="px-6 py-4 border-b border-gray-200">
             <h3 className="text-lg font-medium text-gray-900 flex items-center">
@@ -195,27 +234,37 @@ const Inventory = () => {
           <div className="p-6">
             <div className="space-y-4">
               {inventory
-                .filter(item => item.stock_status !== 'In Stock')
+                .filter((item) => item.stock_status !== "In Stock")
                 .map((item) => (
-                  <div key={item.id} className={`flex items-center justify-between p-4 rounded-lg border ${
-                    item.stock_status === 'Out of Stock' 
-                      ? 'bg-red-50 border-red-200' 
-                      : 'bg-yellow-50 border-yellow-200'
-                  }`}>
+                  <div
+                    key={item.id}
+                    className={`flex items-center justify-between p-4 rounded-lg border ${
+                      item.stock_status === "Out of Stock"
+                        ? "bg-red-50 border-red-200"
+                        : "bg-yellow-50 border-yellow-200"
+                    }`}
+                  >
                     <div>
                       <p className="font-medium text-gray-900">{item.name}</p>
-                      <p className={`text-sm ${
-                        item.stock_status === 'Out of Stock' ? 'text-red-600' : 'text-yellow-600'
-                      }`}>
-                        Current: {item.quantity} • Min Level: {item.min_stock_level}
+                      <p
+                        className={`text-sm ${
+                          item.stock_status === "Out of Stock"
+                            ? "text-red-600"
+                            : "text-yellow-600"
+                        }`}
+                      >
+                        Current: {item.quantity} • Min Level:{" "}
+                        {item.min_stock_level}
                       </p>
                     </div>
                     <div className="text-right">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        item.stock_status === 'Out of Stock' 
-                          ? 'bg-red-100 text-red-800' 
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}>
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          item.stock_status === "Out of Stock"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-yellow-100 text-yellow-800"
+                        }`}
+                      >
                         {item.stock_status}
                       </span>
                     </div>
