@@ -63,7 +63,7 @@ async function setupDatabase() {
         id SERIAL PRIMARY KEY,
         first_name VARCHAR(50) NOT NULL,
         last_name VARCHAR(50) NOT NULL,
-        email VARCHAR(100) UNIQUE NOT NULL,
+        email VARCHAR(100),
         phone VARCHAR(20),
         address TEXT,
         status VARCHAR(50),
@@ -117,9 +117,9 @@ async function setupDatabase() {
 
     // Step 3: Create indexes
     console.log("🔍 Creating indexes...");
-    await client.query(
-      "CREATE INDEX IF NOT EXISTS idx_customers_email ON customers(email)"
-    );
+    // await client.query(
+    //   "CREATE INDEX IF NOT EXISTS idx_customers_email ON customers(email)"
+    // );
     await client.query(
       "CREATE INDEX IF NOT EXISTS idx_items_category ON items(category)"
     );
@@ -141,9 +141,9 @@ async function setupDatabase() {
     await client.query(
       "CREATE INDEX IF NOT EXISTS idx_users_username ON users(username)"
     );
-    await client.query(
-      "CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)"
-    );
+    // await client.query(
+    //   "CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)"
+    // );
     console.log("✅ Indexes created");
 
     // Step 4: Insert sample data

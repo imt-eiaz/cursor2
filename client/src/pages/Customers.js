@@ -75,11 +75,11 @@ const Customers = () => {
     setEditingCustomer(customer);
     setFormData({
       first_name: customer.first_name,
-      last_name: customer.last_name,
-      email: customer.email,
+      last_name: customer.last_name || "",
+      email: customer.email || "",
       phone: customer.phone || "",
       address: customer.address || "",
-      status: customer.status,
+      status: customer.status || "",
     });
     setShowModal(true);
   };
@@ -119,6 +119,7 @@ const Customers = () => {
       customer.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       customer.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (customer.phone && customer.phone.includes(searchTerm))
   );
 
@@ -166,6 +167,7 @@ const Customers = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
+                <th className="table-header">ID</th>
                 <th className="table-header">Name</th>
                 <th className="table-header">Contact</th>
                 <th className="table-header">Address</th>
@@ -177,6 +179,15 @@ const Customers = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredCustomers.map((customer) => (
                 <tr key={customer.id} className="hover:bg-gray-50">
+                  <td className="table-cell">
+                    <div className="flex items-center">
+                      <div className="ml-2">
+                        <div className="text-sm font-medium text-gray-900">
+                          {customer.id}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
                   <td className="table-cell">
                     <div className="flex items-center">
                       <div className="h-10 w-10 bg-primary-100 rounded-full flex items-center justify-center">
@@ -287,7 +298,7 @@ const Customers = () => {
                     </label>
                     <input
                       type="text"
-                      required
+                      // required
                       value={formData.last_name}
                       onChange={(e) =>
                         setFormData({ ...formData, last_name: e.target.value })
@@ -303,7 +314,7 @@ const Customers = () => {
                   </label>
                   <input
                     type="email"
-                    required
+                    // required
                     value={formData.email}
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
