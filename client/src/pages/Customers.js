@@ -36,6 +36,7 @@ const Customers = () => {
       setLoading(true);
       const response = await axios.get("http://localhost:5000/api/customers");
       setCustomers(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Error fetching customers:", error);
       toast.error("Failed to load customers");
@@ -53,6 +54,7 @@ const Customers = () => {
           `http://localhost:5000/api/customers/${editingCustomer.id}`,
           formData
         );
+
         toast.success("Customer updated successfully");
       } else {
         await axios.post("http://localhost:5000/api/customers", formData);
@@ -232,19 +234,7 @@ const Customers = () => {
                       </button>
                     </div>
                   </td>
-                  <td className="table-cell">
-                    <p>Pending</p>
-
-                    {customer.status ? (
-                      <div className="flex items-center text-sm text-gray-500">
-                        <span className="truncate max-w-xs">
-                          {customer.statuss}
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="text-gray-400 text-sm">No address</span>
-                    )}
-                  </td>
+                  <td className="table-cell">{customer.status}</td>
                 </tr>
               ))}
             </tbody>

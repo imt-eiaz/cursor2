@@ -21,6 +21,7 @@ const createTables = async () => {
         email VARCHAR(100) UNIQUE NOT NULL,
         phone VARCHAR(20),
         address TEXT,
+        status VARCHAR(50),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
@@ -92,8 +93,8 @@ const insertSampleData = async () => {
       // Insert sample customers
       await pool.query(`
         INSERT INTO customers (first_name, last_name, email, phone, address) VALUES
-        ('John', 'Doe', 'john@example.com', '555-0101', '123 Main St, City'),
-        ('Jane', 'Smith', 'jane@example.com', '555-0102', '456 Oak Ave, Town')
+        ('John', 'Doe', 'john@example.com', '555-0101', '123 Main St, City', 'to doo'),
+        ('Jane', 'Smith', 'jane@example.com', '555-0102', '456 Oak Ave, Town', 'doingg')
       `);
 
       // Insert sample items

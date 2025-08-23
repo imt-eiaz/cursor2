@@ -1,47 +1,49 @@
-const { Pool } = require('pg');
-require('dotenv').config();
+const { Pool } = require("pg");
+require("dotenv").config();
 
 // First connect to default postgres database to create our database
 const defaultPool = new Pool({
-  user: process.env.DB_USER || 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  database: 'postgres', // Connect to default database first
-  password: process.env.DB_PASSWORD || 'asad',
+  user: process.env.DB_USER || "postgres",
+  host: process.env.DB_HOST || "localhost",
+  database: "postgres", // Connect to default database first
+  password: process.env.DB_PASSWORD || "asad",
   port: process.env.DB_PORT || 5432,
 });
 
 // Then connect to our specific database
 const appPool = new Pool({
-  user: process.env.DB_USER || 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  database: process.env.DB_NAME || 'phone_repair_shop',
-  password: process.env.DB_PASSWORD || 'asad',
+  user: process.env.DB_USER || "postgres",
+  host: process.env.DB_HOST || "localhost",
+  database: process.env.DB_NAME || "phone_repair_shop",
+  password: process.env.DB_PASSWORD || "asad",
   port: process.env.DB_PORT || 5432,
 });
 
 async function setupDatabase() {
   try {
-    console.log('🚀 Setting up PhoneFix Pro database...');
-    
+    console.log("🚀 Setting up PhoneFix Pro database...");
+
     // Step 1: Create database if it doesn't exist
-    console.log('📊 Creating database...');
+    console.log("📊 Creating database...");
     try {
-      await defaultPool.query(`CREATE DATABASE ${process.env.DB_NAME || 'phone_repair_shop'}`);
-      console.log('✅ Database created successfully!');
+      await defaultPool.query(
+        `CREATE DATABASE ${process.env.DB_NAME || "phone_repair_shop"}`
+      );
+      console.log("✅ Database created successfully!");
     } catch (error) {
-      if (error.code === '42P04') {
-        console.log('ℹ️  Database already exists, continuing...');
+      if (error.code === "42P04") {
+        console.log("ℹ️  Database already exists, continuing...");
       } else {
         throw error;
       }
     }
-    
+
     await defaultPool.end();
-    
+
     // Step 2: Create tables
-    console.log('📋 Creating tables...');
+    console.log("📋 Creating tables...");
     const client = await appPool.connect();
-    
+
     // Create users table
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
@@ -53,8 +55,8 @@ async function setupDatabase() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('✅ Users table created');
-    
+    console.log("✅ Users table created");
+
     // Create customers table
     await client.query(`
       CREATE TABLE IF NOT EXISTS customers (
@@ -64,11 +66,12 @@ async function setupDatabase() {
         email VARCHAR(100) UNIQUE NOT NULL,
         phone VARCHAR(20),
         address TEXT,
+        status VARCHAR(50),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('✅ Customers table created');
-    
+    console.log("✅ Customers table created");
+
     // Create items table
     await client.query(`
       CREATE TABLE IF NOT EXISTS items (
@@ -82,8 +85,8 @@ async function setupDatabase() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('✅ Items table created');
-    
+    console.log("✅ Items table created");
+
     // Create inventory table
     await client.query(`
       CREATE TABLE IF NOT EXISTS inventory (
@@ -94,8 +97,8 @@ async function setupDatabase() {
         last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('✅ Inventory table created');
-    
+    console.log("✅ Inventory table created");
+
     // Create sales table
     await client.query(`
       CREATE TABLE IF NOT EXISTS sales (
@@ -110,26 +113,44 @@ async function setupDatabase() {
         notes TEXT
       )
     `);
-    console.log('✅ Sales table created');
-    
+    console.log("✅ Sales table created");
+
     // Step 3: Create indexes
-    console.log('🔍 Creating indexes...');
-    await client.query('CREATE INDEX IF NOT EXISTS idx_customers_email ON customers(email)');
-    await client.query('CREATE INDEX IF NOT EXISTS idx_items_category ON items(category)');
-    await client.query('CREATE INDEX IF NOT EXISTS idx_items_sku ON items(sku)');
-    await client.query('CREATE INDEX IF NOT EXISTS idx_inventory_item_id ON inventory(item_id)');
-    await client.query('CREATE INDEX IF NOT EXISTS idx_sales_customer_id ON sales(customer_id)');
-    await client.query('CREATE INDEX IF NOT EXISTS idx_sales_item_id ON sales(item_id)');
-    await client.query('CREATE INDEX IF NOT EXISTS idx_sales_date ON sales(sale_date)');
-    await client.query('CREATE INDEX IF NOT EXISTS idx_users_username ON users(username)');
-    await client.query('CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)');
-    console.log('✅ Indexes created');
-    
+    console.log("🔍 Creating indexes...");
+    await client.query(
+      "CREATE INDEX IF NOT EXISTS idx_customers_email ON customers(email)"
+    );
+    await client.query(
+      "CREATE INDEX IF NOT EXISTS idx_items_category ON items(category)"
+    );
+    await client.query(
+      "CREATE INDEX IF NOT EXISTS idx_items_sku ON items(sku)"
+    );
+    await client.query(
+      "CREATE INDEX IF NOT EXISTS idx_inventory_item_id ON inventory(item_id)"
+    );
+    await client.query(
+      "CREATE INDEX IF NOT EXISTS idx_sales_customer_id ON sales(customer_id)"
+    );
+    await client.query(
+      "CREATE INDEX IF NOT EXISTS idx_sales_item_id ON sales(item_id)"
+    );
+    await client.query(
+      "CREATE INDEX IF NOT EXISTS idx_sales_date ON sales(sale_date)"
+    );
+    await client.query(
+      "CREATE INDEX IF NOT EXISTS idx_users_username ON users(username)"
+    );
+    await client.query(
+      "CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)"
+    );
+    console.log("✅ Indexes created");
+
     // Step 4: Insert sample data
-    console.log('📝 Inserting sample data...');
-    
+    console.log("📝 Inserting sample data...");
+
     // Check if data already exists
-    const userCount = await client.query('SELECT COUNT(*) FROM users');
+    const userCount = await client.query("SELECT COUNT(*) FROM users");
     if (parseInt(userCount.rows[0].count) === 0) {
       // Insert sample users
       await client.query(`
@@ -137,19 +158,19 @@ async function setupDatabase() {
         ('admin', 'admin@phonefixpro.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
         ('staff1', 'staff1@phonefixpro.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'staff')
       `);
-      console.log('✅ Sample users inserted');
-      
+      console.log("✅ Sample users inserted");
+
       // Insert sample customers
       await client.query(`
         INSERT INTO customers (first_name, last_name, email, phone, address) VALUES
-        ('John', 'Doe', 'john@example.com', '555-0101', '123 Main St, City'),
-        ('Jane', 'Smith', 'jane@example.com', '555-0102', '456 Oak Ave, Town'),
-        ('Mike', 'Johnson', 'mike@example.com', '555-0103', '789 Pine Rd, Village'),
-        ('Sarah', 'Williams', 'sarah@example.com', '555-0104', '321 Elm St, Borough'),
-        ('David', 'Brown', 'david@example.com', '555-0105', '654 Maple Dr, District')
+        ('John', 'Doe', 'john@example.com', '555-0101', '123 Main St, City', 'do do'),
+        ('Jane', 'Smith', 'jane@example.com', '555-0102', '456 Oak Ave, Town', 'di di'),
+        ('Mike', 'Johnson', 'mike@example.com', '555-0103', '789 Pine Rd, Village', 'da da'),
+        ('Sarah', 'Williams', 'sarah@example.com', '555-0104', '321 Elm St, Borough', 'dd dd'),
+        ('David', 'Brown', 'david@example.com', '555-0105', '654 Maple Dr, District', 'dang dang')
       `);
-      console.log('✅ Sample customers inserted');
-      
+      console.log("✅ Sample customers inserted");
+
       // Insert sample items
       await client.query(`
         INSERT INTO items (name, description, category, price, cost, sku) VALUES
@@ -164,16 +185,16 @@ async function setupDatabase() {
         ('Microphone Replacement', 'Phone microphone replacement for various models', 'Parts', 19.99, 10.00, 'MIC-REP-001'),
         ('Water Damage Repair', 'Professional water damage assessment and repair service', 'Repair', 99.99, 50.00, 'WATER-REP-001')
       `);
-      console.log('✅ Sample items inserted');
-      
+      console.log("✅ Sample items inserted");
+
       // Insert sample inventory
       await client.query(`
         INSERT INTO inventory (item_id, quantity, min_stock_level) VALUES
         (1, 5, 2), (2, 8, 3), (3, 25, 10), (4, 50, 20), (5, 15, 5),
         (6, 30, 12), (7, 3, 2), (8, 40, 15), (9, 12, 5), (10, 2, 1)
       `);
-      console.log('✅ Sample inventory inserted');
-      
+      console.log("✅ Sample inventory inserted");
+
       // Insert sample sales
       await client.query(`
         INSERT INTO sales (customer_id, item_id, quantity, unit_price, total_amount, payment_method, notes) VALUES
@@ -183,35 +204,34 @@ async function setupDatabase() {
         (4, 2, 1, 49.99, 49.99, 'Credit Card', 'Charging port repair'),
         (5, 5, 1, 29.99, 29.99, 'Cash', 'Battery replacement kit')
       `);
-      console.log('✅ Sample sales inserted');
+      console.log("✅ Sample sales inserted");
     } else {
-      console.log('ℹ️  Sample data already exists, skipping...');
+      console.log("ℹ️  Sample data already exists, skipping...");
     }
-    
+
     client.release();
     await appPool.end();
-    
-    console.log('\n🎉 Database setup completed successfully!');
-    console.log('\n📋 Database Summary:');
-    console.log(`   Database: ${process.env.DB_NAME || 'phone_repair_shop'}`);
-    console.log(`   Host: ${process.env.DB_HOST || 'localhost'}`);
+
+    console.log("\n🎉 Database setup completed successfully!");
+    console.log("\n📋 Database Summary:");
+    console.log(`   Database: ${process.env.DB_NAME || "phone_repair_shop"}`);
+    console.log(`   Host: ${process.env.DB_HOST || "localhost"}`);
     console.log(`   Port: ${process.env.DB_PORT || 5432}`);
-    console.log(`   User: ${process.env.DB_USER || 'postgres'}`);
-    console.log('\n🔑 Default Login Credentials:');
-    console.log('   Username: admin or staff1');
-    console.log('   Password: password');
-    console.log('\n🚀 You can now start your application with: npm run dev');
-    
+    console.log(`   User: ${process.env.DB_USER || "postgres"}`);
+    console.log("\n🔑 Default Login Credentials:");
+    console.log("   Username: admin or staff1");
+    console.log("   Password: password");
+    console.log("\n🚀 You can now start your application with: npm run dev");
   } catch (error) {
-    console.error('❌ Database setup failed:');
-    console.error('   Error:', error.message);
-    
-    if (error.code === 'ECONNREFUSED') {
-      console.log('\n💡 Make sure PostgreSQL is running on your system');
-    } else if (error.code === '28P01') {
-      console.log('\n💡 Check your database credentials in the .env file');
+    console.error("❌ Database setup failed:");
+    console.error("   Error:", error.message);
+
+    if (error.code === "ECONNREFUSED") {
+      console.log("\n💡 Make sure PostgreSQL is running on your system");
+    } else if (error.code === "28P01") {
+      console.log("\n💡 Check your database credentials in the .env file");
     }
-    
+
     process.exit(1);
   }
 }
