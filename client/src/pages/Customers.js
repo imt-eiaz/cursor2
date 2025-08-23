@@ -114,14 +114,17 @@ const Customers = () => {
     setShowModal(true);
   };
 
-  const filteredCustomers = customers.filter(
-    (customer) =>
-      customer.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (customer.phone && customer.phone.includes(searchTerm))
-  );
+  const filteredCustomers = customers.filter((customer) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      (customer.first_name &&
+        customer.first_name.toLowerCase().includes(term)) ||
+      (customer.last_name && customer.last_name.toLowerCase().includes(term)) ||
+      (customer.email && customer.email.toLowerCase().includes(term)) ||
+      (customer.status && customer.status.toLowerCase().includes(term)) ||
+      (customer.phone && customer.phone.toLowerCase().includes(term))
+    );
+  });
 
   if (loading) {
     return (
@@ -314,7 +317,7 @@ const Customers = () => {
                   </label>
                   <input
                     type="email"
-                    // required
+                    required
                     value={formData.email}
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })

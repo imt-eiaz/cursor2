@@ -42,8 +42,8 @@ router.post(
   [
     body("first_name").notEmpty().trim().escape(),
     body("last_name").optional().trim().escape(),
-    body("email").optional().trim().escape(),
-    // body("email").optional().normalizeEmail(),
+    // body("email").optional().trim().escape(),
+    body("email").optional().normalizeEmail(),
     body("phone").optional().trim().escape(),
     body("address").optional().trim().escape(),
     body("status").optional().trim().escape(),
@@ -58,14 +58,14 @@ router.post(
       const { first_name, last_name, email, phone, address, status } = req.body;
 
       // Check if email already exists
-      // const emailExists = await db.query(
-      //   "SELECT id FROM customers WHERE email = $1",
-      //   [email]
-      // );
+      const emailExists = await db.query(
+        "SELECT id FROM customers WHERE email = $1",
+        [email]
+      );
 
-      // if (emailExists.rows.length > 0) {
-      //   return res.status(400).json({ error: "Email already exists" });
-      // }
+      if (emailExists.rows.length > 0) {
+        return res.status(400).json({ error: "Email already exists" });
+      }
 
       const result = await db.query(
         "INSERT INTO customers (first_name, last_name, email, phone, address, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
@@ -89,8 +89,8 @@ router.put(
   [
     body("first_name").notEmpty().trim().escape(),
     body("last_name").optional().trim().escape(),
-    // body("email").isEmail().normalizeEmail(),
-    body("email").optional().trim().escape(),
+    body("email").isEmail().normalizeEmail(),
+    // body("email").optional().trim().escape(),
     body("phone").optional().trim().escape(),
     body("address").optional().trim().escape(),
     body("status").optional().trim().escape(),
@@ -106,14 +106,14 @@ router.put(
       const { first_name, last_name, email, phone, address, status } = req.body;
 
       // Check if email exists for other customers
-      // const emailExists = await db.query(
-      //   "SELECT id FROM customers WHERE email = $1 AND id != $2",
-      //   [email, id]
-      // );
+      const emailExists = await db.query(
+        "SELECT id FROM customers WHERE email = $1 AND id != $2",
+        [email, id]
+      );
 
-      // if (emailExists.rows.length > 0) {
-      //   return res.status(400).json({ error: "Email already exists" });
-      // }
+      if (emailExists.rows.length > 0) {
+        return res.status(400).json({ error: "Email already exists" });
+      }
 
       const result = await db.query(
         "UPDATE customers SET first_name = $1, last_name = $2, email = $3, phone = $4, address = $5, status = $6  WHERE id = $7 RETURNING *",
