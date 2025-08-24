@@ -25,6 +25,8 @@ const Customers = () => {
     phone: "",
     address: "",
     status: "",
+    product: "",
+    repair: "",
   });
 
   useEffect(() => {
@@ -80,6 +82,8 @@ const Customers = () => {
       phone: customer.phone || "",
       address: customer.address || "",
       status: customer.status || "",
+      product: customer.product || "",
+      repair: customer.repair || "",
     });
     setShowModal(true);
   };
@@ -105,6 +109,8 @@ const Customers = () => {
       phone: "",
       address: "",
       status: "",
+      product: "",
+      repair: "",
     });
   };
 
@@ -122,6 +128,8 @@ const Customers = () => {
       (customer.last_name && customer.last_name.toLowerCase().includes(term)) ||
       (customer.email && customer.email.toLowerCase().includes(term)) ||
       (customer.status && customer.status.toLowerCase().includes(term)) ||
+      (customer.product && customer.product.toLowerCase().includes(term)) ||
+      (customer.repair && customer.repair.toLowerCase().includes(term)) ||
       (customer.phone && customer.phone.toLowerCase().includes(term))
     );
   });
@@ -171,12 +179,14 @@ const Customers = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="table-header">ID</th>
+                <th className="table-header">Joined</th>
                 <th className="table-header">Name</th>
                 <th className="table-header">Contact</th>
                 <th className="table-header">Address</th>
-                <th className="table-header">Joined</th>
-                <th className="table-header">Actions</th>
+                <th className="table-header">Product</th>
+                <th className="table-header">Repair</th>
                 <th className="table-header">Status</th>
+                <th className="table-header">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -190,6 +200,9 @@ const Customers = () => {
                         </div>
                       </div>
                     </div>
+                  </td>
+                  <td className="table-cell text-sm text-gray-500">
+                    {new Date(customer.created_at).toLocaleDateString()}
                   </td>
                   <td className="table-cell">
                     <div className="flex items-center">
@@ -229,9 +242,10 @@ const Customers = () => {
                       <span className="text-gray-400 text-sm">No address</span>
                     )}
                   </td>
-                  <td className="table-cell text-sm text-gray-500">
-                    {new Date(customer.created_at).toLocaleDateString()}
-                  </td>
+
+                  <td className="table-cell">{customer.product}</td>
+                  <td className="table-cell">{customer.repair}</td>
+                  <td className="table-cell">{customer.status}</td>
                   <td className="table-cell">
                     <div className="flex space-x-2">
                       <button
@@ -248,7 +262,6 @@ const Customers = () => {
                       </button>
                     </div>
                   </td>
-                  <td className="table-cell">{customer.status}</td>
                 </tr>
               ))}
             </tbody>
@@ -340,100 +353,44 @@ const Customers = () => {
                   />
                 </div>
 
-                <div className="mb-3">
-                  <label htmlFor="mobileBrand" className="form-label">
-                    Select your mobile brand :{" "}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Address
                   </label>
-                  <select
-                    className="form-select"
-                    aria-label="Choose Mobile Brand"
-                    id="mobileBrand"
-                    // onChange={(e) => setBrand(e.target.value)}
-                  >
-                    <option selected>Choose Brand</option>
-                    <option value="Apple">Apple</option>
-                    <option value="Samsung">Samsung</option>
-                    <option value="Nothing">Nothing</option>
-                    <option value="Google">Google</option>
-                    <option value="Oneplus">Oneplus</option>
-                    <option value="Vivo">Vivo</option>
-                    <option value="iQOO">iQOO</option>
-                    <option value="Realme">Realme</option>
-                    <option value="Oppo">Oppo</option>
-                    <option value="Poco">Poco</option>
-                    <option value="Asus">Asus</option>
-                    <option value="Micromax">Micromax</option>
-                    <option value="Xiaomi">Xiaomi</option>
-                    <option value="Motorola">Motorola</option>
-                  </select>
+                  <textarea
+                    value={formData.address}
+                    onChange={(e) =>
+                      setFormData({ ...formData, address: e.target.value })
+                    }
+                    rows="3"
+                    className="input-field mt-1"
+                  />
                 </div>
 
                 <div className="mb-3">
                   <label htmlFor="modelName" className="form-label">
-                    Enter Model Name :{" "}
+                    Product
                   </label>
                   <input
+                    value={formData.product}
                     type="text"
-                    name="modelName"
-                    id="modelName"
                     className="input-field mt-1"
-
-                    // onChange={(e) => setModel(e.target.value)}
-                  />
-                </div>
-
-                {/* <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Status
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.status}
                     onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
+                      setFormData({ ...formData, product: e.target.value })
                     }
-                    className="input-field mt-1"
-                  />
-                </div> */}
-
-                <div className="mb-3">
-                  <label htmlFor="mobileBrand" className="form-label">
-                    Status n :{" "}
-                  </label>
-                  <select
-                    value={formData.status}
-                    className="form-select"
-                    aria-label="Choose Mobile Brand"
-                    id="mobileBrand"
-                    onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
-                    }
-                    // onChange={(e) => setBrand(e.target.value)}
-                  >
-                    <option selected>Choose status</option>
-                    <option value="COMPLETED">COMPLETED</option>
-                    <option value="IN_PROGRESS">IN PROGRESS</option>
-                    <option value="PENDING">PENDING</option>
-                    <option value="REJECTED">REJECTED</option>
-                  </select>
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="repairDesc" className="form-label">
-                    Description of issue :{" "}
-                  </label>
-                  <textarea
-                    className="form-control"
-                    id="repairDesc"
-                    rows="3"
-                    // onChange={(e) => setDescription(e.target.value)}
                   />
                 </div>
+
                 <div className="mb-3">
                   <label className="form-label" htmlFor="repairType">
-                    Select your repair :{" "}
+                    Repair
                   </label>
                   <select
+                    value={formData.repair}
+                    type="text"
+                    onChange={(e) =>
+                      setFormData({ ...formData, repair: e.target.value })
+                    }
                     className="form-select"
                     aria-label="Choose Repair Type"
                     id="repairType"
@@ -467,20 +424,27 @@ const Customers = () => {
                   </select>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Address
+                <div className="mb-3">
+                  <label htmlFor="mobileBrand" className="form-label">
+                    Status
                   </label>
-                  <textarea
-                    value={formData.address}
+                  <select
+                    value={formData.status}
+                    className="form-select"
+                    aria-label="Choose Mobile Brand"
+                    id="mobileBrand"
                     onChange={(e) =>
-                      setFormData({ ...formData, address: e.target.value })
+                      setFormData({ ...formData, status: e.target.value })
                     }
-                    rows="3"
-                    className="input-field mt-1"
-                  />
+                    // onChange={(e) => setBrand(e.target.value)}
+                  >
+                    <option selected>Choose status</option>
+                    <option value="COMPLETED">COMPLETED</option>
+                    <option value="IN_PROGRESS">IN PROGRESS</option>
+                    <option value="PENDING">PENDING</option>
+                    <option value="REJECTED">REJECTED</option>
+                  </select>
                 </div>
-
                 <div className="flex justify-end space-x-3 pt-4">
                   <button
                     type="button"

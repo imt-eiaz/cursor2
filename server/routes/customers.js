@@ -46,7 +46,9 @@ router.post(
     body("email").optional().normalizeEmail(),
     body("phone").optional().trim().escape(),
     body("address").optional().trim().escape(),
+    body("product").optional().trim().escape(),
     body("status").optional().trim().escape(),
+    body("repair").optional().trim().escape(),
   ],
   async (req, res) => {
     try {
@@ -55,7 +57,16 @@ router.post(
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const { first_name, last_name, email, phone, address, status } = req.body;
+      const {
+        first_name,
+        last_name,
+        email,
+        phone,
+        address,
+        status,
+        product,
+        repair,
+      } = req.body;
 
       // Check if email already exists
       const emailExists = await db.query(
@@ -68,8 +79,8 @@ router.post(
       }
 
       const result = await db.query(
-        "INSERT INTO customers (first_name, last_name, email, phone, address, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-        [first_name, last_name, email, phone, address, status]
+        "INSERT INTO customers (first_name, last_name, email, phone, address, status, product, repair) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+        [first_name, last_name, email, phone, address, status, product, repair]
       );
 
       res.status(201).json({
@@ -93,6 +104,8 @@ router.put(
     // body("email").optional().trim().escape(),
     body("phone").optional().trim().escape(),
     body("address").optional().trim().escape(),
+    body("product").optional().trim().escape(),
+    body("repair").optional().trim().escape(),
     body("status").optional().trim().escape(),
   ],
   async (req, res) => {
@@ -103,7 +116,16 @@ router.put(
       }
 
       const { id } = req.params;
-      const { first_name, last_name, email, phone, address, status } = req.body;
+      const {
+        first_name,
+        last_name,
+        email,
+        phone,
+        address,
+        status,
+        product,
+        repair,
+      } = req.body;
 
       // Check if email exists for other customers
       const emailExists = await db.query(
@@ -116,8 +138,18 @@ router.put(
       }
 
       const result = await db.query(
-        "UPDATE customers SET first_name = $1, last_name = $2, email = $3, phone = $4, address = $5, status = $6  WHERE id = $7 RETURNING *",
-        [first_name, last_name, email, phone, address, status, id]
+        "UPDATE customers SET first_name = $1, last_name = $2, email = $3, phone = $4, address = $5, status = $6, product=$7, repair=$8 WHERE id = $9 RETURNING *",
+        [
+          first_name,
+          last_name,
+          email,
+          phone,
+          address,
+          status,
+          product,
+          repair,
+          id,
+        ]
       );
 
       if (result.rows.length === 0) {

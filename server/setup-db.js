@@ -162,7 +162,7 @@ async function setupDatabase() {
 
       // Insert sample customers
       await client.query(`
-        INSERT INTO customers (first_name, last_name, email, phone, address) VALUES
+        INSERT INTO customers (first_name, last_name, email, phone, address, status, product) VALUES
         ('John', 'Doe', 'john@example.com', '555-0101', '123 Main St, City', 'do do'),
         ('Jane', 'Smith', 'jane@example.com', '555-0102', '456 Oak Ave, Town', 'di di'),
         ('Mike', 'Johnson', 'mike@example.com', '555-0103', '789 Pine Rd, Village', 'da da'),
