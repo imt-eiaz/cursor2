@@ -382,7 +382,7 @@ const Customers = () => {
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Status
                   </label>
@@ -394,23 +394,27 @@ const Customers = () => {
                     }
                     className="input-field mt-1"
                   />
-                </div>
+                </div> */}
 
                 <div className="mb-3">
                   <label htmlFor="mobileBrand" className="form-label">
                     Status :{" "}
                   </label>
                   <select
+                    value={formData.status}
                     className="form-select"
                     aria-label="Choose Mobile Brand"
                     id="mobileBrand"
+                    onChange={(e) =>
+                      setFormData({ ...formData, status: e.target.value })
+                    }
                     // onChange={(e) => setBrand(e.target.value)}
                   >
                     <option selected>Choose status</option>
-                    <option value="Apple">COMPLETED</option>
-                    <option value="Samsung">IN PROGRESS</option>
-                    <option value="Nothing">PENDING</option>
-                    <option value="Google">REJECTED</option>
+                    <option value="COMPLETED">COMPLETED</option>
+                    <option value="IN_PROGRESS">IN PROGRESS</option>
+                    <option value="PENDING">PENDING</option>
+                    <option value="REJECTED">REJECTED</option>
                   </select>
                 </div>
 
