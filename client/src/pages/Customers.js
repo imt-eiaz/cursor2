@@ -398,7 +398,7 @@ const Customers = () => {
 
                 <div className="mb-3">
                   <label htmlFor="mobileBrand" className="form-label">
-                    Status :{" "}
+                    Status n :{" "}
                   </label>
                   <select
                     value={formData.status}
