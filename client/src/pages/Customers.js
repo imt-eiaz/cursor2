@@ -235,7 +235,7 @@ const Customers = () => {
                   <td className="table-cell">
                     <div className="space-y-1">
                       <div className="flex items-center text-sm text-gray-900">
-                        <Mail className="h-4 w-4 mr-2 text-gray-400" />
+                        {/* <Mail className="h-4 w-4 mr-2 text-gray-400" /> */}
                         {customer.email}
                       </div>
                       {customer.phone && (
@@ -348,7 +348,7 @@ const Customers = () => {
                     Email
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     // required
                     value={formData.email}
                     onChange={(e) =>

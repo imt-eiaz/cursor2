@@ -75,14 +75,14 @@ router.post(
       } = req.body;
 
       // Check if email already exists
-      const emailExists = await db.query(
-        "SELECT id FROM customers WHERE email = $1",
-        [email]
-      );
+      // const emailExists = await db.query(
+      //   "SELECT id FROM customers WHERE email = $1",
+      //   [email]
+      // );
 
-      if (emailExists.rows.length > 0) {
-        return res.status(400).json({ error: "Email already exists" });
-      }
+      // if (emailExists.rows.length > 0) {
+      //   return res.status(400).json({ error: "Email already exists" });
+      // }
 
       const result = await db.query(
         "INSERT INTO customers (first_name, last_name, email, phone, address, status, product, repair, password, price, note) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
@@ -107,7 +107,7 @@ router.post(
       });
     } catch (error) {
       console.error("Error creating customer:", error);
-      res.status(500).json({ error: "Server error" });
+      res.status(500).json({ error: "Server erroraaaa" });
     }
   }
 );
@@ -118,7 +118,8 @@ router.put(
   [
     body("first_name").notEmpty().trim().escape(),
     body("last_name").optional().trim().escape(),
-    body("email").isEmail().normalizeEmail(),
+    body("email").optional().trim().escape(),
+    // body("email").isEmail().normalizeEmail(),
     // body("email").optional().trim().escape(),
     body("phone").optional().trim().escape(),
     body("address").optional().trim().escape(),
@@ -152,14 +153,14 @@ router.put(
       } = req.body;
 
       // Check if email exists for other customers
-      const emailExists = await db.query(
-        "SELECT id FROM customers WHERE email = $1 AND id != $2",
-        [email, id]
-      );
+      // const emailExists = await db.query(
+      //   "SELECT id FROM customers WHERE email = $1 AND id != $2",
+      //   [email, id]
+      // );
 
-      if (emailExists.rows.length > 0) {
-        return res.status(400).json({ error: "Email already exists" });
-      }
+      // if (emailExists.rows.length > 0) {
+      //   return res.status(400).json({ error: "Email already exists" });
+      // }
 
       const result = await db.query(
         "UPDATE customers SET first_name = $1, last_name = $2, email = $3, phone = $4, address = $5, status = $6, product = $7, repair = $8, password = $9, price = $10, note = $11 WHERE id = $12 RETURNING *",
