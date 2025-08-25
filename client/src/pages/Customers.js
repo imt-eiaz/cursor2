@@ -269,7 +269,7 @@ const Customers = () => {
                     <div className="flex space-x-2">
                       <button
                         onClick={() => handleEdit(customer)}
-                        className="text-primary-600 hover:text-primary-900 p-1"
+                        className="text-green-600 hover:text-green-900 p-1"
                       >
                         <Edit className="h-4 w-4" />
                       </button>
