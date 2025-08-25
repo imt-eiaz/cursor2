@@ -94,7 +94,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
       </div>
     );
   }
@@ -114,7 +114,7 @@ const Dashboard = () => {
           title="Total Customers"
           value={stats.customers}
           icon={Users}
-          color="bg-blue-500"
+          color="bg-green-500"
           subtitle="Registered customers"
         />
         <StatCard
@@ -128,14 +128,14 @@ const Dashboard = () => {
           title="Total Sales"
           value={stats.sales}
           icon={ShoppingCart}
-          color="bg-purple-500"
+          color="bg-green-500"
           subtitle="Completed transactions"
         />
         <StatCard
           title="Total Revenue"
-          value={`$${stats.revenue.toFixed(2)}`}
+          value={`£${stats.revenue.toFixed(2)}`}
           icon={DollarSign}
-          color="bg-yellow-500"
+          color="bg-green-500"
           subtitle="Total earnings"
         />
       </div>
@@ -167,7 +167,7 @@ const Dashboard = () => {
                     </div>
                     <div className="text-right">
                       <p className="font-medium text-gray-900">
-                        ${sale.total_amount}
+                        £{sale.total_amount}
                       </p>
                       <p className="text-xs text-gray-500">
                         {new Date(sale.sale_date).toLocaleDateString()}

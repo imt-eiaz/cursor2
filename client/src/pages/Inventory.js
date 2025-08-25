@@ -46,7 +46,7 @@ const Inventory = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
       </div>
     );
   }
@@ -70,8 +70,8 @@ const Inventory = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center">
-            <div className="p-3 bg-blue-100 rounded-lg">
-              <Package className="h-6 w-6 text-blue-600" />
+            <div className="p-3 bg-green-100 rounded-lg">
+              <Package className="h-6 w-6 text-green-600" />
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Total Items</p>
@@ -155,8 +155,8 @@ const Inventory = () => {
                 <tr key={item.id} className="hover:bg-gray-50">
                   <td className="table-cell">
                     <div className="flex items-center">
-                      <div className="h-10 w-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                        <Package className="h-5 w-5 text-primary-600" />
+                      <div className="h-10 w-10 bg-green-100 rounded-lg flex items-center justify-center">
+                        <Package className="h-5 w-5 text-green-600" />
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">
@@ -197,7 +197,7 @@ const Inventory = () => {
                   </td>
                   <td className="table-cell">
                     <div className="flex space-x-2">
-                      <button className="text-primary-600 hover:text-primary-900 p-1">
+                      <button className="text-green-600 hover:text-green-900 p-1">
                         <Edit className="h-4 w-4" />
                       </button>
                     </div>

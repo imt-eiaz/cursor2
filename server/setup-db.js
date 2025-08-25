@@ -155,7 +155,7 @@ async function setupDatabase() {
       // Insert sample users
       await client.query(`
         INSERT INTO users (username, email, password_hash, role) VALUES
-        ('admin', 'admin@phonefixpro.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
+        ('admin', 'iamatphonebox@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
         ('staff1', 'staff1@phonefixpro.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'staff')
       `);
       console.log("✅ Sample users inserted");

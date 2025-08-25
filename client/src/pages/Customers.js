@@ -222,8 +222,8 @@ const Customers = () => {
                   </td>
                   <td className="table-cell">
                     <div className="flex items-center">
-                      <div className="h-10 w-10 bg-primary-100 rounded-full flex items-center justify-center">
-                        <User className="h-5 w-5 text-primary-600" />
+                      <div className="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
+                        <User className="h-5 w-5 text-green-600" />
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">

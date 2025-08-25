@@ -48,8 +48,8 @@ const Sidebar = () => {
     <div className="w-64 bg-white shadow-sm border-r border-gray-200 min-h-screen">
       <div className="p-6">
         <div className="flex items-center space-x-3 mb-8">
-          <div className="p-2 bg-primary-100 rounded-lg">
-            <Smartphone className="h-6 w-6 text-primary-600" />
+          <div className="p-2 bg-green-100 rounded-lg">
+            <Smartphone className="h-6 w-6 text-green-600" />
           </div>
           <div>
             <h2 className="text-lg font-semibold text-gray-900">
@@ -69,7 +69,7 @@ const Sidebar = () => {
                 className={({ isActive }) =>
                   `flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 group ${
                     isActive
-                      ? "bg-primary-50 text-primary-700 border-r-2 border-primary-600"
+                      ? "bg-green-100 text-green-700 border-r-2 border-green-600"
                       : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                   }`
                 }
@@ -86,7 +86,7 @@ const Sidebar = () => {
           })}
         </nav>
 
-        <div className="mt-8 pt-6 border-t border-gray-200">
+        <div className="mt-20 pt-20 border-t border-gray-200">
           <div className="flex items-center space-x-3 px-4 py-3 text-gray-600">
             <Wrench className="h-5 w-5" />
             <div>
