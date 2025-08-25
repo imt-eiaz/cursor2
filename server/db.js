@@ -21,6 +21,11 @@ const createTables = async () => {
         email VARCHAR(100) UNIQUE NOT NULL,
         phone VARCHAR(20),
         address TEXT,
+        product VARCHAR(100),
+        repair VARCHAR(100),
+        password VARCHAR(100),
+        price DECIMAL(10,2),
+        note TEXT,
         status VARCHAR(50),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )

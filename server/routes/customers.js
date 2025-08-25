@@ -42,12 +42,15 @@ router.post(
   [
     body("first_name").notEmpty().trim().escape(),
     body("last_name").optional().trim().escape(),
-    // body("email").optional().trim().escape(),
-    body("email").optional().normalizeEmail(),
+    // body("email").optional().normalizeEmail(),
+    body("email").optional().trim().escape(),
     body("phone").optional().trim().escape(),
     body("address").optional().trim().escape(),
     body("product").optional().trim().escape(),
     body("status").optional().trim().escape(),
+    body("password").optional().trim().escape(),
+    body("price").optional().trim().escape(),
+    body("note").optional().trim().escape(),
     body("repair").optional().trim().escape(),
   ],
   async (req, res) => {
@@ -66,6 +69,9 @@ router.post(
         status,
         product,
         repair,
+        password,
+        price,
+        note,
       } = req.body;
 
       // Check if email already exists
@@ -79,8 +85,20 @@ router.post(
       }
 
       const result = await db.query(
-        "INSERT INTO customers (first_name, last_name, email, phone, address, status, product, repair) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
-        [first_name, last_name, email, phone, address, status, product, repair]
+        "INSERT INTO customers (first_name, last_name, email, phone, address, status, product, repair, password, price, note) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
+        [
+          first_name,
+          last_name,
+          email,
+          phone,
+          address,
+          status,
+          product,
+          repair,
+          password,
+          price,
+          note,
+        ]
       );
 
       res.status(201).json({
@@ -106,6 +124,9 @@ router.put(
     body("address").optional().trim().escape(),
     body("product").optional().trim().escape(),
     body("repair").optional().trim().escape(),
+    body("password").optional().trim().escape(),
+    body("price").optional().trim().escape(),
+    body("note").optional().trim().escape(),
     body("status").optional().trim().escape(),
   ],
   async (req, res) => {
@@ -122,9 +143,12 @@ router.put(
         email,
         phone,
         address,
-        status,
         product,
         repair,
+        password,
+        price,
+        note,
+        status,
       } = req.body;
 
       // Check if email exists for other customers
@@ -138,7 +162,7 @@ router.put(
       }
 
       const result = await db.query(
-        "UPDATE customers SET first_name = $1, last_name = $2, email = $3, phone = $4, address = $5, status = $6, product=$7, repair=$8 WHERE id = $9 RETURNING *",
+        "UPDATE customers SET first_name = $1, last_name = $2, email = $3, phone = $4, address = $5, status = $6, product = $7, repair = $8, password = $9, price = $10, note = $11 WHERE id = $12 RETURNING *",
         [
           first_name,
           last_name,
@@ -148,6 +172,9 @@ router.put(
           status,
           product,
           repair,
+          password,
+          price,
+          note,
           id,
         ]
       );
@@ -162,7 +189,7 @@ router.put(
       });
     } catch (error) {
       console.error("Error updating customer:", error);
-      res.status(500).json({ error: "Server error" });
+      res.status(500).json({ error: "Server errors" });
     }
   }
 );

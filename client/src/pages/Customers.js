@@ -24,9 +24,12 @@ const Customers = () => {
     email: "",
     phone: "",
     address: "",
-    status: "",
     product: "",
     repair: "",
+    password: "",
+    price: "",
+    note: "",
+    status: "",
   });
 
   useEffect(() => {
@@ -81,9 +84,12 @@ const Customers = () => {
       email: customer.email || "",
       phone: customer.phone || "",
       address: customer.address || "",
-      status: customer.status || "",
       product: customer.product || "",
       repair: customer.repair || "",
+      password: customer.password || "",
+      price: customer.price || "",
+      note: customer.note || "",
+      status: customer.status || "",
     });
     setShowModal(true);
   };
@@ -108,9 +114,12 @@ const Customers = () => {
       email: "",
       phone: "",
       address: "",
-      status: "",
       product: "",
       repair: "",
+      password: "",
+      price: "",
+      note: "",
+      status: "",
     });
   };
 
@@ -127,10 +136,14 @@ const Customers = () => {
         customer.first_name.toLowerCase().includes(term)) ||
       (customer.last_name && customer.last_name.toLowerCase().includes(term)) ||
       (customer.email && customer.email.toLowerCase().includes(term)) ||
-      (customer.status && customer.status.toLowerCase().includes(term)) ||
+      (customer.phone && customer.phone.toLowerCase().includes(term)) ||
+      (customer.address && customer.address.toLowerCase().includes(term)) ||
       (customer.product && customer.product.toLowerCase().includes(term)) ||
       (customer.repair && customer.repair.toLowerCase().includes(term)) ||
-      (customer.phone && customer.phone.toLowerCase().includes(term))
+      (customer.password && customer.password.toLowerCase().includes(term)) ||
+      (customer.price && customer.price.toLowerCase().includes(term)) ||
+      (customer.note && customer.note.toLowerCase().includes(term)) ||
+      (customer.status && customer.status.toLowerCase().includes(term))
     );
   });
 
@@ -185,6 +198,9 @@ const Customers = () => {
                 <th className="table-header">Address</th>
                 <th className="table-header">Product</th>
                 <th className="table-header">Repair</th>
+                <th className="table-header">Password</th>
+                <th className="table-header">Price</th>
+                <th className="table-header">Note</th>
                 <th className="table-header">Status</th>
                 <th className="table-header">Actions</th>
               </tr>
@@ -245,6 +261,9 @@ const Customers = () => {
 
                   <td className="table-cell">{customer.product}</td>
                   <td className="table-cell">{customer.repair}</td>
+                  <td className="table-cell">{customer.password}</td>
+                  <td className="table-cell">{customer.price}</td>
+                  <td className="table-cell">{customer.note}</td>
                   <td className="table-cell">{customer.status}</td>
                   <td className="table-cell">
                     <div className="flex space-x-2">
@@ -285,8 +304,8 @@ const Customers = () => {
 
       {/* Customer Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-10">
+          <div className="relative top-5 mx-auto p-5 border w-1/2 shadow-lg rounded-md bg-white">
             <div className="mt-3">
               <h3 className="text-lg font-medium text-gray-900 mb-4">
                 {editingCustomer ? "Edit Customer" : "Add New Customer"}
@@ -330,7 +349,7 @@ const Customers = () => {
                   </label>
                   <input
                     type="email"
-                    required
+                    // required
                     value={formData.email}
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
@@ -381,19 +400,16 @@ const Customers = () => {
                   />
                 </div>
 
-                <div className="mb-3">
-                  <label className="form-label" htmlFor="repairType">
-                    Repair
-                  </label>
+                <div className="mb-3  ">
                   <select
                     value={formData.repair}
                     type="text"
                     onChange={(e) =>
                       setFormData({ ...formData, repair: e.target.value })
                     }
-                    className="form-select"
+                    className="mb-3 input-field  mt-4"
                     aria-label="Choose Repair Type"
-                    id="repairType"
+                    // id="repairType"
                     // onChange={(e) => setType(e.target.value)}
                   >
                     <option defaultValue>Choose Repair</option>
@@ -425,12 +441,51 @@ const Customers = () => {
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="mobileBrand" className="form-label">
-                    Status
+                  <label htmlFor="modelName" className="form-label">
+                    Password
                   </label>
+                  <input
+                    value={formData.password}
+                    type="text"
+                    className="input-field mt-1"
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="modelName" className="form-label">
+                    Price
+                  </label>
+                  <input
+                    value={formData.price}
+                    type="text"
+                    className="input-field mt-1"
+                    onChange={(e) =>
+                      setFormData({ ...formData, price: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="modelName" className="form-label">
+                    Note
+                  </label>
+                  <textarea
+                    value={formData.note}
+                    rows="3"
+                    className="input-field mt-1"
+                    onChange={(e) =>
+                      setFormData({ ...formData, note: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="mb-3">
                   <select
                     value={formData.status}
-                    className="form-select"
+                    className="form-select input-field mt-1"
                     aria-label="Choose Mobile Brand"
                     id="mobileBrand"
                     onChange={(e) =>
