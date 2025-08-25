@@ -236,7 +236,7 @@ const Customers = () => {
                     <div className="space-y-1">
                       <div className="flex items-center text-sm text-gray-900">
                         {/* <Mail className="h-4 w-4 mr-2 text-gray-400" /> */}
-                        {customer.email}
+                        {/* {customer.email} */}
                       </div>
                       {customer.phone && (
                         <div className="flex items-center text-sm text-gray-500">
