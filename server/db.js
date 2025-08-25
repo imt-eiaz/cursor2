@@ -97,11 +97,16 @@ const insertSampleData = async () => {
     if (parseInt(customerCount.rows[0].count) === 0) {
       // Insert sample customers
       await pool.query(`
-        INSERT INTO customers (first_name, last_name, email, phone, address) VALUES
-        ('John', 'Doe', 'john@example.com', '555-0101', '123 Main St, City', 'to doo'),
-        ('Jane', 'Smith', 'jane@example.com', '555-0102', '456 Oak Ave, Town', 'doingg')
+        INSERT INTO customers (first_name, last_name, email, phone, address, product, repair, password, price, note, status) VALUES
+        ('John', 'Doe', 'john@example.com', '555-0101', '123 Main St, City', 'iPhone 13', 'Screen Replacement', 'password123', 89.99, 'No issues', 'to do'),
+        ('Jane', 'Smith', 'jane@example.com', '555-0102', '456 Oak Ave, Town', 'Samsung S21', 'Charging Port', 'password456', 49.99, 'Urgent', 'doing')
       `);
+      console.log("Sample customers inserted successfully");
+    }
 
+    // Check if items already exist
+    const itemsCount = await pool.query("SELECT COUNT(*) FROM items");
+    if (parseInt(itemsCount.rows[0].count) === 0) {
       // Insert sample items
       await pool.query(`
         INSERT INTO items (name, description, category, price, cost, sku) VALUES
@@ -111,7 +116,12 @@ const insertSampleData = async () => {
         ('Screen Protector - Universal', 'Tempered glass screen protector', 'Accessories', 9.99, 3.00, 'PROT-UNIV-001'),
         ('Battery Replacement Kit', 'Universal phone battery replacement kit', 'Parts', 29.99, 15.00, 'BAT-UNIV-001')
       `);
+      console.log("Sample items inserted successfully");
+    }
 
+    // Check if inventory already exists
+    const inventoryCount = await pool.query("SELECT COUNT(*) FROM inventory");
+    if (parseInt(inventoryCount.rows[0].count) === 0) {
       // Insert sample inventory
       await pool.query(`
         INSERT INTO inventory (item_id, quantity, min_stock_level) VALUES
@@ -121,8 +131,7 @@ const insertSampleData = async () => {
         (4, 50, 20),
         (5, 15, 5)
       `);
-
-      console.log("Sample data inserted successfully");
+      console.log("Sample inventory inserted successfully");
     }
   } catch (error) {
     console.error("Error inserting sample data:", error);
