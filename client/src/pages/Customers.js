@@ -41,7 +41,6 @@ const Customers = () => {
       setLoading(true);
       const response = await axios.get("http://localhost:5000/api/customers");
       setCustomers(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching customers:", error);
       toast.error("Failed to load customers");

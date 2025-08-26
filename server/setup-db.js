@@ -114,6 +114,8 @@ async function setupDatabase() {
       )
     `);
 
+    console.log("✅ Sales table created");
+
     // Create phones table
     await client.query(`
       CREATE TABLE IF NOT EXISTS phones (
@@ -126,8 +128,7 @@ async function setupDatabase() {
         notes TEXT
       )
     `);
-
-    console.log("✅ Sales table created");
+    console.log("✅ Phones table created");
 
     // Step 3: Create indexes
     console.log("🔍 Creating indexes...");

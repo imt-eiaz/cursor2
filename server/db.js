@@ -11,6 +11,19 @@ const pool = new Pool({
 
 // Create tables if they don't exist
 const createTables = async () => {
+  // Phones table
+  await pool.query(`
+      CREATE TABLE IF NOT EXISTS phones (
+        id SERIAL PRIMARY KEY,
+        brand VARCHAR(50) NOT NULL,
+        model VARCHAR(100) NOT NULL,
+        color VARCHAR(50),
+        imei VARCHAR(50) UNIQUE,
+        price DECIMAL(10,2),
+        status VARCHAR(50),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
   try {
     // Customers table
     await pool.query(`
@@ -91,6 +104,18 @@ const createTables = async () => {
 
 // Insert sample data
 const insertSampleData = async () => {
+  // Check if phones already exist
+  const phonesCount = await pool.query("SELECT COUNT(*) FROM phones");
+  if (parseInt(phonesCount.rows[0].count) === 0) {
+    // Insert sample phones
+    await pool.query(`
+        INSERT INTO phones (brand, model, color, imei, price, status) VALUES
+        ('Apple', 'iPhone 13', 'Black', 'IMEI1234567890', 799.99, 'available'),
+        ('Samsung', 'Galaxy S21', 'Silver', 'IMEI0987654321', 699.99, 'sold'),
+        ('Google', 'Pixel 6', 'White', 'IMEI1122334455', 599.99, 'available')
+      `);
+    console.log("Sample phones inserted successfully");
+  }
   try {
     // Check if data already exists
     const customerCount = await pool.query("SELECT COUNT(*) FROM customers");

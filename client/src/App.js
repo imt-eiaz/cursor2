@@ -1,16 +1,17 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './contexts/AuthContext';
-import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
-import Dashboard from './pages/Dashboard';
-import Customers from './pages/Customers';
-import Items from './pages/Items';
-import Sales from './pages/Sales';
-import Inventory from './pages/Inventory';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import LoadingSpinner from './components/LoadingSpinner';
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./pages/Dashboard";
+import Customers from "./pages/Customers";
+import Items from "./pages/Items";
+import Sales from "./pages/Sales";
+import Inventory from "./pages/Inventory";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import LoadingSpinner from "./components/LoadingSpinner";
+import Phones from "./pages/Phones";
 
 function App() {
   const { isAuthenticated, loading } = useAuth();
@@ -41,6 +42,7 @@ function App() {
             <Route path="/items" element={<Items />} />
             <Route path="/sales" element={<Sales />} />
             <Route path="/inventory" element={<Inventory />} />
+            <Route path="/phones" element={<Phones />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
