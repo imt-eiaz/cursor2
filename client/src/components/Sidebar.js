@@ -8,6 +8,7 @@ import {
   BarChart3,
   Smartphone,
   Wrench,
+  SmartphoneIcon,
 } from "lucide-react";
 
 const Sidebar = () => {
@@ -41,6 +42,12 @@ const Sidebar = () => {
       name: "Inventory",
       icon: BarChart3,
       description: "Stock management",
+    },
+    {
+      path: "/phones",
+      name: "Phones",
+      icon: SmartphoneIcon,
+      description: "Phones management",
     },
   ];
 
