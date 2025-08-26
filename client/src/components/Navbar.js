@@ -17,7 +17,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <h1 className="text-4xl font-bold text-gray-700">
+              <h1 className="text-4xl font-bold text-yellow-400">
                 PhoneBox Gadgets Cirencester
               </h1>
             </div>
