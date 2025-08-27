@@ -16,6 +16,7 @@ const Phones = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
+  // const [price, setPrice] = useState(0);
   const [editingPhone, setEditingPhone] = useState(null);
   const [formData, setFormData] = useState({
     brand: "",
@@ -30,12 +31,17 @@ const Phones = () => {
     fetchPhones();
   }, []);
 
+  // Calculate total price of all phones
+  const totalPrice = phones.reduce(
+    (acc, phone) => acc + (parseFloat(phone.price) || 0),
+    0
+  );
+
   const fetchPhones = async () => {
     try {
       setLoading(true);
       const response = await axios.get("http://localhost:5000/api/phones");
       setPhones(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching phones:", error);
       toast.error("Failed to load inventory");
@@ -308,7 +314,9 @@ const Phones = () => {
               <Package className="h-6 w-6 text-green-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Total phones</p>
+              <p className="text-sm font-medium text-gray-600">
+                Total phones entries
+              </p>
               <p className="text-2xl font-semibold text-gray-900">
                 {phones.length}
               </p>
@@ -324,7 +332,7 @@ const Phones = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Cash in hand</p>
               <p className="text-2xl font-semibold text-gray-900">
-                £340
+                £{totalPrice}
                 {/* {phone.filter((item) => item.price === "In Stock").length} */}
               </p>
             </div>
