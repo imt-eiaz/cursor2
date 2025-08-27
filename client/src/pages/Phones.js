@@ -325,7 +325,7 @@ const Phones = () => {
               <p className="text-sm font-medium text-gray-600">Cash in hand</p>
               <p className="text-2xl font-semibold text-gray-900">
                 £340
-                {phone.filter((item) => item.price === "In Stock").length}
+                {/* {phone.filter((item) => item.price === "In Stock").length} */}
               </p>
             </div>
           </div>

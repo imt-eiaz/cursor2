@@ -1,3 +1,9 @@
+const express = require("express");
+const { body, validationResult } = require("express-validator");
+const db = require("../db");
+
+const router = express.Router();
+
 // Update phone
 router.put(
   "/:id",
@@ -71,11 +77,6 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-const express = require("express");
-const { body, validationResult } = require("express-validator");
-const db = require("../db");
-
-const router = express.Router();
 
 // Get all customers
 router.get("/", async (req, res) => {
