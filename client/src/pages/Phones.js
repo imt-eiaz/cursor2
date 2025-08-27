@@ -1,33 +1,41 @@
 import React, { useState, useEffect } from "react";
 import {
   Plus,
-  Search,
   Edit,
   BarChart3,
   AlertTriangle,
   Package,
-  Phone,
-  PhoneIcon,
-  MailboxIcon,
-  LucidePhone,
+  Search,
+  Trash2,
   SmartphoneIcon,
 } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const Phones = () => {
-  const [phone, setPhone] = useState([]);
+  const [phones, setPhones] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [editingPhone, setEditingPhone] = useState(null);
+  const [formData, setFormData] = useState({
+    brand: "",
+    model: "",
+    color: "",
+    imei: "",
+    price: "",
+    status: "",
+  });
 
   useEffect(() => {
-    fetchInventory();
+    fetchPhones();
   }, []);
 
-  const fetchInventory = async () => {
+  const fetchPhones = async () => {
     try {
       setLoading(true);
       const response = await axios.get("http://localhost:5000/api/phones");
-      setPhone(response.data);
+      setPhones(response.data);
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching phones:", error);
@@ -37,16 +45,89 @@ const Phones = () => {
     }
   };
 
-  // const getStockStatusColor = (status) => {
-  //   switch (status) {
-  //     case "Low Stock":
-  //       return "bg-yellow-100 text-yellow-800";
-  //     case "Out of Stock":
-  //       return "bg-red-100 text-red-800";
-  //     default:
-  //       return "bg-green-100 text-green-800";
-  //   }
-  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Prepare data: ensure price is a number and remove created_at
+      const submitData = {
+        ...formData,
+        price: formData.price ? Number(formData.price) : null,
+      };
+      if (editingPhone) {
+        // Prevent IMEI from being changed during edit
+        submitData.imei = editingPhone.imei;
+        await axios.put(
+          `http://localhost:5000/api/phones/${editingPhone.id}`,
+          submitData
+        );
+        toast.success("Phone updated successfully");
+      } else {
+        await axios.post("http://localhost:5000/api/phones", submitData);
+        toast.success("Phone created successfully");
+      }
+      setShowModal(false);
+      setEditingPhone(null);
+      resetForm();
+      fetchPhones();
+    } catch (error) {
+      console.error("Error saving phone:", error);
+      toast.error(error.response?.data?.error || "Failed to save phone");
+    }
+  };
+
+  const handleEdit = (phone) => {
+    setEditingPhone(phone);
+    setFormData({
+      brand: phone.brand || "",
+      model: phone.model || "",
+      color: phone.color || "",
+      imei: phone.imei || "",
+      price: phone.price || "",
+      status: phone.status || "",
+    });
+    setShowModal(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this phone?")) {
+      try {
+        await axios.delete(`http://localhost:5000/api/phones/${id}`);
+        toast.success("Phone deleted successfully");
+        fetchPhones();
+      } catch (error) {
+        console.error("Error deleting phone:", error);
+        toast.error("Failed to delete phone");
+      }
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      brand: "",
+      model: "",
+      color: "",
+      imei: "",
+      price: "",
+      status: "",
+    });
+  };
+
+  const openNewCustomerModal = () => {
+    setEditingPhone(null);
+    resetForm();
+    setShowModal(true);
+  };
+
+  // Filtered phones for search
+  const filteredPhones = phones.filter((phone) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      (phone.brand && phone.brand.toLowerCase().includes(term)) ||
+      (phone.model && phone.model.toLowerCase().includes(term)) ||
+      (phone.imei && phone.imei.toLowerCase().includes(term)) ||
+      (phone.status && phone.status.toLowerCase().includes(term))
+    );
+  });
 
   if (loading) {
     return (
@@ -63,13 +144,164 @@ const Phones = () => {
           <h1 className="text-2xl font-bold text-gray-900">Phones</h1>
           <p className="text-gray-600">Monitor your phone records status</p>
         </div>
-        <button className="btn-primary flex items-center space-x-2">
+        <button
+          onClick={openNewCustomerModal}
+          className="btn-primary flex items-center space-x-2"
+        >
           <Plus className="h-5 w-5" />
           <span>Add Phone</span>
         </button>
       </div>
 
-      {/* Inventory Summary Cards */}
+      {/* Modal for Add/Edit Phone */}
+      {showModal && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-10">
+          <div className="relative top-5 mx-auto p-5 border w-1/2 shadow-lg rounded-md bg-white">
+            <div className="mt-3">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                {editingPhone ? "Edit Phone" : "Add New Phone"}
+              </h3>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Replace the form fields below with your actual phone fields */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Brand
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.brand}
+                      onChange={(e) =>
+                        setFormData({ ...formData, brand: e.target.value })
+                      }
+                      className="input-field mt-1"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Model
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.model}
+                      onChange={(e) =>
+                        setFormData({ ...formData, model: e.target.value })
+                      }
+                      className="input-field mt-1"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Color
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.color}
+                    onChange={(e) =>
+                      setFormData({ ...formData, color: e.target.value })
+                    }
+                    className="input-field mt-1"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    IMEI
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.imei}
+                    onChange={(e) =>
+                      setFormData({ ...formData, imei: e.target.value })
+                    }
+                    className="input-field mt-1"
+                    disabled={!!editingPhone}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Price
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.price}
+                    onChange={(e) =>
+                      setFormData({ ...formData, price: e.target.value })
+                    }
+                    className="input-field mt-1"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Status
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.status}
+                    onChange={(e) =>
+                      setFormData({ ...formData, status: e.target.value })
+                    }
+                    className="input-field mt-1"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Created At
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.created_at}
+                    onChange={(e) =>
+                      setFormData({ ...formData, created_at: e.target.value })
+                    }
+                    className="input-field mt-1"
+                  />
+                </div>
+
+                <div className="flex justify-end space-x-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowModal(false);
+                      setEditingPhone(null);
+                      resetForm();
+                    }}
+                    className="btn-secondary"
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className="btn-primary">
+                    {editingPhone ? "Update" : "Create"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Search Bar */}
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <Search className="h-5 w-5 text-gray-400" />
+        </div>
+        <input
+          type="text"
+          placeholder="Search customers by name, email, or phone..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="input-field pl-10"
+        />
+      </div>
+
+      {/* Phones Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center">
@@ -79,7 +311,7 @@ const Phones = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Total phones</p>
               <p className="text-2xl font-semibold text-gray-900">
-                {phone.length}
+                {phones.length}
               </p>
             </div>
           </div>
@@ -140,7 +372,7 @@ const Phones = () => {
         </div>
       </div>
 
-      {/* Inventory Table */}
+      {/* Phone Table */}
       <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -148,93 +380,70 @@ const Phones = () => {
               <tr>
                 {/* <th className="table-header">ID</th> */}
                 <th className="table-header">Brand/ Model</th>
-                {/* <th className="table-header">Model</th> */}
                 <th className="table-header">Color</th>
                 <th className="table-header">IMEI</th>
                 <th className="table-header">Price</th>
                 <th className="table-header">Status</th>
                 <th className="table-header">Created At</th>
-                <th className="table-header">Action</th>
+                <th className="table-header">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {phone.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50">
-                  <td className="table-cell">
-                    <div className="flex items-center">
-                      <div className="h-10 w-10 bg-green-100 rounded-lg flex items-center justify-center">
-                        <SmartphoneIcon className="h-5 w-5 text-green-600" />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                          {item.brand}
-                        </div>
-                        {item.model && (
-                          <div className="text-xs text-gray-500">
-                            {item.model}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </td>
-                  <td className="table-cell">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                      {item.color}
-                    </span>
-                  </td>
-                  <td className="table-cell">
-                    <div className="text-sm font-medium text-gray-900">
-                      {item.imei}
-                    </div>
-                  </td>
-                  <td className="table-cell text-sm text-gray-500">
-                    {item.price}
-                  </td>
-                  <td className="table-cell text-sm text-gray-500">
-                    {item.status}
-                  </td>
-
-                  <td className="table-cell text-sm text-gray-500">
-                    {new Date(item.created_at).toLocaleDateString()}
-                  </td>
-
-                  <td className="table-cell">
-                    <div className="flex space-x-2">
-                      <button className="text-green-600 hover:text-green-900 p-1">
-                        <Edit className="h-4 w-4" />
-                      </button>
-                    </div>
+              {phones.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="text-center py-4 text-gray-500">
+                    No phones found.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                phones
+                  .filter((item) => {
+                    const term = searchTerm.toLowerCase();
+                    return (
+                      (item.brand && item.brand.toLowerCase().includes(term)) ||
+                      (item.model && item.model.toLowerCase().includes(term)) ||
+                      (item.color && item.color.toLowerCase().includes(term)) ||
+                      (item.imei && item.imei.toLowerCase().includes(term)) ||
+                      (item.price && item.price.toLowerCase().includes(term)) ||
+                      (item.status &&
+                        item.status.toLowerCase().includes(term)) ||
+                      (item.created_at &&
+                        item.created_at.toLowerCase().includes(term))
+                    );
+                  })
+                  .map((item) => (
+                    <tr key={item.id}>
+                      <td className="table-cell">
+                        {item.brand} {item.model}
+                      </td>
+                      <td className="table-cell">{item.color}</td>
+                      <td className="table-cell">{item.imei}</td>
+                      <td className="table-cell">{item.price}</td>
+                      <td className="table-cell">{item.status}</td>
+                      <td className="table-cell">{item.created_at}</td>
+                      <td className="table-cell">
+                        <button
+                          className="btn-icon"
+                          onClick={() => handleEdit(item)}
+                          title="Edit"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </button>
+                        <button
+                          className="btn-icon ml-2"
+                          onClick={() => handleDelete(item.id)}
+                          title="Delete"
+                        >
+                          <Trash2 className="h-4 w-4 text-red-600" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+              )}
             </tbody>
           </table>
         </div>
-
-        {phone.length === 0 && (
-          <div className="text-center py-12">
-            <Package className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">
-              No inventory found
-            </h3>
-            <p className="mt-1 text-sm text-gray-500">
-              Add items to start tracking inventory.
-            </p>
-          </div>
-        )}
       </div>
-
-      {/* Low Stock Alerts */}
-      {/* {phone.filter((item) => item.stock_status !== "In Stock").length > 0 && (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900 flex items-center">
-              <AlertTriangle className="h-5 w-5 mr-2 text-yellow-600" />
-              Stock Alerts
-            </h3>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };
