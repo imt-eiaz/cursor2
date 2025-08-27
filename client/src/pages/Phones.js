@@ -18,8 +18,6 @@ const Phones = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
-  // const [price, setPrice] = useState(0);
-  const [date, setDate] = useState(new Date());
   const [editingPhone, setEditingPhone] = useState(null);
   const [formData, setFormData] = useState({
     brand: "",
@@ -28,6 +26,7 @@ const Phones = () => {
     imei: "",
     price: "",
     status: "",
+    created_at: new Date(),
   });
 
   useEffect(() => {
@@ -339,20 +338,13 @@ const Phones = () => {
                     Created At
                   </label>
                   <DatePicker
-                    selected={formData.created_at}
                     className="input-field mt-1"
+                    selected={formData.created_at}
+                    placeholderText="Select date"
                     onChange={(date) =>
                       setFormData({ ...formData, created_at: date })
                     }
                   />
-                  {/* <input
-                    type="text"
-                    value={formData.created_at}
-                    onChange={(e) =>
-                      setFormData({ ...formData, created_at: e.target.value })
-                    }
-                    className="input-field mt-1"
-                  /> */}
                 </div>
 
                 <div className="flex justify-end space-x-3 pt-4">

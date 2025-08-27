@@ -116,20 +116,6 @@ async function setupDatabase() {
 
     console.log("✅ Sales table created");
 
-    // Create phones table
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS phones (
-        id SERIAL PRIMARY KEY,
-        sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        description TEXT,
-        purchased DECIMAL(10,2),
-        sold DECIMAL(10,2),
-        total_amount DECIMAL(10,2) NOT NULL,
-        notes TEXT
-      )
-    `);
-    console.log("✅ Phones table created");
-
     // Step 3: Create indexes
     console.log("🔍 Creating indexes...");
     // await client.query(

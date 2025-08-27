@@ -5,7 +5,7 @@ import {
   Edit,
   Trash2,
   User,
-  Mail,
+  // Mail,
   Phone,
   MapPin,
 } from "lucide-react";
@@ -217,7 +217,11 @@ const Customers = () => {
                     </div>
                   </td>
                   <td className="table-cell text-sm text-gray-500">
-                    {new Date(customer.created_at).toLocaleDateString()}
+                    {
+                      new Date(customer.created_at)
+                        .toLocaleDateString()
+                        .split("T")[0]
+                    }
                   </td>
                   <td className="table-cell">
                     <div className="flex items-center">
