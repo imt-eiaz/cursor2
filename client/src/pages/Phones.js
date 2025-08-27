@@ -7,7 +7,6 @@ import {
   Package,
   Search,
   Trash2,
-  SmartphoneIcon,
 } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -278,7 +277,7 @@ const Phones = () => {
                     Cancel
                   </button>
                   <button type="submit" className="btn-primary">
-                    {editingPhone ? "Update" : "Create"}
+                    {editingPhone ? "Update" : "Add"}
                   </button>
                 </div>
               </form>
@@ -323,13 +322,10 @@ const Phones = () => {
               <BarChart3 className="h-6 w-6 text-green-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">In Stock</p>
+              <p className="text-sm font-medium text-gray-600">Cash in hand</p>
               <p className="text-2xl font-semibold text-gray-900">
-                12
-                {/* {
-                  phone.filter((item) => item.stock_status === "In Stock")
-                    .length
-                } */}
+                £340
+                {phone.filter((item) => item.price === "In Stock").length}
               </p>
             </div>
           </div>
@@ -343,7 +339,7 @@ const Phones = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Purchased</p>
               <p className="text-2xl font-semibold text-gray-900">
-                5
+                £989
                 {/* {
                   phone.filter((item) => item.stock_status === "Low Stock")
                     .length
@@ -361,7 +357,7 @@ const Phones = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Sold</p>
               <p className="text-2xl font-semibold text-gray-900">
-                7
+                £1090
                 {/* {
                   phone.filter((item) => item.stock_status === "Out of Stock")
                     .length
