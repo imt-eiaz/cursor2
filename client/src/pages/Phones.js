@@ -420,7 +420,9 @@ const Phones = () => {
                       <td className="table-cell">{item.imei}</td>
                       <td className="table-cell">{item.price}</td>
                       <td className="table-cell">{item.status}</td>
-                      <td className="table-cell">{item.created_at}</td>
+                      <td className="table-cell">
+                        {new Date(item.created_at).toLocaleDateString()}
+                      </td>
                       <td className="table-cell">
                         <button
                           className="btn-icon"
