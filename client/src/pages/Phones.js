@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   Plus,
   Edit,
@@ -17,6 +19,7 @@ const Phones = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   // const [price, setPrice] = useState(0);
+  const [date, setDate] = useState(new Date());
   const [editingPhone, setEditingPhone] = useState(null);
   const [formData, setFormData] = useState({
     brand: "",
@@ -174,28 +177,83 @@ const Phones = () => {
                     <label className="block text-sm font-medium text-gray-700">
                       Brand
                     </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.brand}
-                      onChange={(e) =>
-                        setFormData({ ...formData, brand: e.target.value })
-                      }
-                      className="input-field mt-1"
-                    />
+                    <div>
+                      <select
+                        value={formData.brand}
+                        type="text"
+                        onChange={(e) =>
+                          setFormData({ ...formData, brand: e.target.value })
+                        }
+                        className="input-field mt-1"
+                        aria-label="Choose brand"
+                      >
+                        <option defaultValue>Choose Brand</option>
+                        <option value="Apple">Apple</option>
+                        <option value="Samsung">Samsung</option>
+                        <option value="Google">Google</option>
+                      </select>
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Model
                     </label>
-                    <input
-                      type="text"
+                    <select
                       value={formData.model}
+                      type="text"
                       onChange={(e) =>
                         setFormData({ ...formData, model: e.target.value })
                       }
                       className="input-field mt-1"
-                    />
+                      aria-label="Choose model"
+                    >
+                      <option defaultValue>Choose Model</option>
+                      <option value="iPhone-7">iPhone 7</option>
+                      <option value="iPhone-7-Plus">iPhone 7 Plus</option>
+                      <option value="iPhone-8">iPhone 8</option>
+                      <option value="iPhone-8-Plus">iPhone 8 Plus</option>
+                      <option value="iPhone-X">iPhone X</option>
+                      <option value="iPhone-XS">iPhone XS</option>
+                      <option value="iPhone-XR">iPhone XR</option>
+                      <option value="iPhone-XS-Max">iPhone XS-Max</option>
+                      <option value="iPhone-11">iPhone 11</option>
+                      <option value="iPhone-11-Pro">iPhone 11-Pro</option>
+                      <option value="iPhone-11-Pro-Max">
+                        iPhone 11-Pro-Max
+                      </option>
+                      <option value="iPhone-12">iPhone 12</option>
+                      <option value="iPhone-12-Pro">iPhone 12-Pro</option>
+                      <option value="iPhone-12-Pro-Max">
+                        iPhone 12-Pro-Max
+                      </option>
+                      <option value="iPhone-12-Mini">iPhone 12-Mini</option>
+                      <option value="iPhone-13">iPhone 13</option>
+                      <option value="iPhone-13-Pro">iPhone 13-Pro</option>
+                      <option value="iPhone-13-Pro-Max">
+                        iPhone 13-Pro-Max
+                      </option>
+                      <option value="iPhone-13-Mini">iPhone MiniMax</option>
+                      <option value="iPhone-14">iPhone 14</option>
+                      <option value="iPhone-14-Pro">iPhone 14-Pro</option>
+                      <option value="iPhone-14-Pro-Max">
+                        iPhone 14-Pro-Max
+                      </option>
+                      <option value="iPhone-14-Plus">iPhonlusro-Max</option>
+                      <option value="iPhone-15">iPhone 15</option>
+                      <option value="iPhone-15-Pro">iPhone 15-Pro</option>
+                      <option value="iPhone-15-Pro-Max">
+                        iPhone 15-Pro-Max
+                      </option>
+                      <option value="iPhone-15-Pro-Max">
+                        iPhone 15-Pro-Max
+                      </option>
+                      <option value="iPhone-15-Plus">iPhone-15-Plus</option>
+                      <option value="iPhone-16">iPhone-16</option>
+                      <option value="iPhone-16-Pro">iPhone-16-Pro</option>
+                      <option value="iPhone-16-Pro-Max">
+                        iPhone-16-Pro-Max
+                      </option>
+                    </select>
                   </div>
                 </div>
 
@@ -203,14 +261,26 @@ const Phones = () => {
                   <label className="block text-sm font-medium text-gray-700">
                     Color
                   </label>
-                  <input
-                    type="text"
-                    value={formData.color}
-                    onChange={(e) =>
-                      setFormData({ ...formData, color: e.target.value })
-                    }
-                    className="input-field mt-1"
-                  />
+
+                  <div>
+                    <select
+                      value={formData.color}
+                      type="text"
+                      onChange={(e) =>
+                        setFormData({ ...formData, color: e.target.value })
+                      }
+                      className="input-field mt-1"
+                      aria-label="Choose color"
+                    >
+                      <option defaultValue>Choose Color</option>
+                      <option value="White">White</option>
+                      <option value="Black">Black</option>
+                      <option value="Red">Red</option>
+                      <option value="Blue">Blue</option>
+                      <option value="Gold">Gold</option>
+                      <option value="Silver">Silver</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div>
@@ -246,28 +316,43 @@ const Phones = () => {
                   <label className="block text-sm font-medium text-gray-700">
                     Status
                   </label>
-                  <input
-                    type="text"
-                    value={formData.status}
-                    onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
-                    }
-                    className="input-field mt-1"
-                  />
+
+                  <div>
+                    <select
+                      value={formData.status}
+                      type="text"
+                      onChange={(e) =>
+                        setFormData({ ...formData, status: e.target.value })
+                      }
+                      className="input-field mt-1"
+                      aria-label="Choose status"
+                    >
+                      <option defaultValue>Choose Status</option>
+                      <option value="Available">Available</option>
+                      <option value="Sold">Sold</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Created At
                   </label>
-                  <input
+                  <DatePicker
+                    selected={formData.created_at}
+                    className="input-field mt-1"
+                    onChange={(date) =>
+                      setFormData({ ...formData, created_at: date })
+                    }
+                  />
+                  {/* <input
                     type="text"
                     value={formData.created_at}
                     onChange={(e) =>
                       setFormData({ ...formData, created_at: e.target.value })
                     }
                     className="input-field mt-1"
-                  />
+                  /> */}
                 </div>
 
                 <div className="flex justify-end space-x-3 pt-4">
@@ -383,7 +468,7 @@ const Phones = () => {
             <thead className="bg-gray-50">
               <tr>
                 {/* <th className="table-header">ID</th> */}
-                <th className="table-header">Brand/ Model</th>
+                <th className="table-header">Model</th>
                 <th className="table-header">Color</th>
                 <th className="table-header">IMEI</th>
                 <th className="table-header">Price</th>
