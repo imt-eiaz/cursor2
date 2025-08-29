@@ -31,7 +31,6 @@ const createTables = async () => {
         id SERIAL PRIMARY KEY,
         first_name VARCHAR(50) NOT NULL,
         last_name VARCHAR(50) NOT NULL,
-        email VARCHAR(100),
         phone VARCHAR(20),
         address TEXT,
         product VARCHAR(100),
@@ -122,9 +121,9 @@ const insertSampleData = async () => {
     if (parseInt(customerCount.rows[0].count) === 0) {
       // Insert sample customers
       await pool.query(`
-        INSERT INTO customers (first_name, last_name, email, phone, address, product, repair, password, price, note, status) VALUES
-        ('John', 'Doe', 'john@example.com', '555-0101', '123 Main St, City', 'iPhone 13', 'Screen Replacement', 'password123', 89.99, 'No issues', 'to do'),
-        ('Jane', 'Smith', 'jane@example.com', '555-0102', '456 Oak Ave, Town', 'Samsung S21', 'Charging Port', 'password456', 49.99, 'Urgent', 'doing')
+        INSERT INTO customers (first_name, last_name, phone, address, product, repair, password, price, note, status) VALUES
+        ('John', 'Doe', '555-0101', '123 Main St, City', 'iPhone 13', 'Screen Replacement', 'password123', 89.99, 'No issues', 'to do'),
+        ('Jane', 'Smith', '555-0102', '456 Oak Ave, Town', 'Samsung S21', 'Charging Port', 'password456', 49.99, 'Urgent', 'doing')
       `);
       console.log("Sample customers inserted successfully");
     }

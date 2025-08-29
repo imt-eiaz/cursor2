@@ -21,7 +21,6 @@ const Customers = () => {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
-    email: "",
     phone: "",
     address: "",
     product: "",
@@ -53,22 +52,37 @@ const Customers = () => {
     e.preventDefault();
 
     try {
+      // Prepare data for update or create
+      const data = { ...formData };
+      // Remove id if present (should never be sent on create)
+      if (data.id) delete data.id;
+      // if (data.email) {
+      //   data.email = data.email.trim();
+      // }
+      if (!data.password) {
+        delete data.password;
+      }
+      if (data.price) {
+        data.price = Number(data.price);
+      }
+
       if (editingCustomer) {
-        // Clone formData and remove password if empty
-        const updateData = { ...formData };
-        if (!updateData.password) {
-          delete updateData.password;
-        }
-        if (updateData.price) {
-          updateData.price = Number(updateData.price);
-        }
         await axios.put(
           `http://localhost:5000/api/customers/${editingCustomer.id}`,
-          updateData
+          data
         );
         toast.success("Customer updated successfully");
       } else {
-        await axios.post("http://localhost:5000/api/customers", formData);
+        // For new customer, remove empty fields (like password, email, etc.)
+        const createData = { ...data };
+        // Remove id if present (should never be sent on create)
+        if (createData.id) delete createData.id;
+        Object.keys(createData).forEach((key) => {
+          if (createData[key] === "" || createData[key] === undefined) {
+            delete createData[key];
+          }
+        });
+        await axios.post("http://localhost:5000/api/customers", createData);
         toast.success("Customer created successfully");
       }
 
@@ -77,8 +91,17 @@ const Customers = () => {
       resetForm();
       fetchCustomers();
     } catch (error) {
-      console.error("Error saving customer:", error);
-      toast.error(error.response?.data?.error || "Failed to save customer");
+      // Log the full error for debugging
+      console.error("Error saving customer:", error, error?.response);
+      if (error.response?.data?.error) {
+        toast.error(error.response.data.error);
+      } else if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Failed to save customer. Unknown error.");
+      }
     }
   };
 
@@ -87,7 +110,7 @@ const Customers = () => {
     setFormData({
       first_name: customer.first_name,
       last_name: customer.last_name || "",
-      email: customer.email || "",
+      // email: customer.email || "",
       phone: customer.phone || "",
       address: customer.address || "",
       product: customer.product || "",
@@ -117,7 +140,7 @@ const Customers = () => {
     setFormData({
       first_name: "",
       last_name: "",
-      email: "",
+      // email: "",
       phone: "",
       address: "",
       product: "",
@@ -141,7 +164,7 @@ const Customers = () => {
       (customer.first_name &&
         customer.first_name.toLowerCase().includes(term)) ||
       (customer.last_name && customer.last_name.toLowerCase().includes(term)) ||
-      (customer.email && customer.email.toLowerCase().includes(term)) ||
+      // (customer.email && customer.email.toLowerCase().includes(term)) ||
       (customer.phone && customer.phone.toLowerCase().includes(term)) ||
       (customer.address && customer.address.toLowerCase().includes(term)) ||
       (customer.product && customer.product.toLowerCase().includes(term)) ||
@@ -353,7 +376,7 @@ const Customers = () => {
                   </div>
                 </div>
 
-                <div>
+                {/* <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Email
                   </label>
@@ -366,7 +389,7 @@ const Customers = () => {
                     }
                     className="input-field mt-1"
                   />
-                </div>
+                </div> */}
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
