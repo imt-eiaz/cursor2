@@ -54,11 +54,18 @@ const Customers = () => {
 
     try {
       if (editingCustomer) {
+        // Clone formData and remove password if empty
+        const updateData = { ...formData };
+        if (!updateData.password) {
+          delete updateData.password;
+        }
+        if (updateData.price) {
+          updateData.price = Number(updateData.price);
+        }
         await axios.put(
           `http://localhost:5000/api/customers/${editingCustomer.id}`,
-          formData
+          updateData
         );
-
         toast.success("Customer updated successfully");
       } else {
         await axios.post("http://localhost:5000/api/customers", formData);

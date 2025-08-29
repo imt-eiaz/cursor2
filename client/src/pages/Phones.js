@@ -55,10 +55,14 @@ const Phones = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Prepare data: ensure price is a number and remove created_at
+      // Prepare data: ensure price is a number and created_at is ISO string
       const submitData = {
         ...formData,
         price: formData.price ? Number(formData.price) : null,
+        created_at:
+          formData.created_at instanceof Date
+            ? formData.created_at.toISOString()
+            : formData.created_at,
       };
       if (editingPhone) {
         // Prevent IMEI from being changed during edit
@@ -74,7 +78,6 @@ const Phones = () => {
       }
       setShowModal(false);
       setEditingPhone(null);
-      resetForm();
       fetchPhones();
     } catch (error) {
       console.error("Error saving phone:", error);
@@ -91,6 +94,7 @@ const Phones = () => {
       imei: phone.imei || "",
       price: phone.price || "",
       status: phone.status || "",
+      created_at: phone.created_at ? new Date(phone.created_at) : new Date(),
     });
     setShowModal(true);
   };
@@ -116,6 +120,7 @@ const Phones = () => {
       imei: "",
       price: "",
       status: "",
+      created_at: new Date(),
     });
   };
 
@@ -485,11 +490,15 @@ const Phones = () => {
                       (item.model && item.model.toLowerCase().includes(term)) ||
                       (item.color && item.color.toLowerCase().includes(term)) ||
                       (item.imei && item.imei.toLowerCase().includes(term)) ||
-                      (item.price && item.price.toLowerCase().includes(term)) ||
+                      (item.price &&
+                        item.price.toString().toLowerCase().includes(term)) ||
                       (item.status &&
                         item.status.toLowerCase().includes(term)) ||
                       (item.created_at &&
-                        item.created_at.toLowerCase().includes(term))
+                        new Date(item.created_at)
+                          .toLocaleDateString()
+                          .toLowerCase()
+                          .includes(term))
                     );
                   })
                   .map((item) => (
