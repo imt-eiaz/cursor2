@@ -189,14 +189,14 @@ const Customers = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Customers</h1>
           <p className="text-gray-600">Manage your customer database</p>
+          <button
+            onClick={openNewCustomerModal}
+            className="btn-primary flex items-center space-x-2 mt-5"
+          >
+            <Plus className="h-5 w-5" />
+            <span>Add Customer</span>
+          </button>
         </div>
-        <button
-          onClick={openNewCustomerModal}
-          className="btn-primary flex items-center space-x-2"
-        >
-          <Plus className="h-5 w-5" />
-          <span>Add Customer</span>
-        </button>
       </div>
 
       {/* Search Bar */}
@@ -293,7 +293,7 @@ const Customers = () => {
 
                   <td className="table-cell">{customer.product}</td>
                   <td className="table-cell">
-                    {customer.repair.substring(0, 15)}
+                    {(customer.repair || "").substring(0, 15)}
                   </td>
                   <td className="table-cell">{customer.password}</td>
                   <td className="table-cell">{customer.price}</td>
