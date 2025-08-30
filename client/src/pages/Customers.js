@@ -7,7 +7,6 @@ import {
   User,
   // Mail,
   Phone,
-  MapPin,
 } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -221,10 +220,10 @@ const Customers = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="table-header">ID</th>
-                <th className="table-header">Joined</th>
+                <th className="table-header">Date</th>
                 <th className="table-header">Name</th>
                 <th className="table-header">Contact</th>
-                <th className="table-header">Address</th>
+                {/* <th className="table-header">Address</th> */}
                 <th className="table-header">Product</th>
                 <th className="table-header">Repair</th>
                 <th className="table-header">Password</th>
@@ -279,7 +278,7 @@ const Customers = () => {
                       )}
                     </div>
                   </td>
-                  <td className="table-cell">
+                  {/* <td className="table-cell">
                     {customer.address ? (
                       <div className="flex items-center text-sm text-gray-500">
                         <MapPin className="h-4 w-4 mr-2 text-gray-400" />
@@ -290,13 +289,17 @@ const Customers = () => {
                     ) : (
                       <span className="text-gray-400 text-sm">No address</span>
                     )}
-                  </td>
+                  </td> */}
 
                   <td className="table-cell">{customer.product}</td>
-                  <td className="table-cell">{customer.repair}</td>
+                  <td className="table-cell">
+                    {customer.repair.substring(0, 15)}
+                  </td>
                   <td className="table-cell">{customer.password}</td>
                   <td className="table-cell">{customer.price}</td>
-                  <td className="table-cell">{customer.note}</td>
+                  <td className="table-cell">
+                    {(customer.note || "").substring(0, 15)}
+                  </td>
                   <td className="table-cell">{customer.status}</td>
                   <td className="table-cell">
                     <div className="flex space-x-2">
@@ -405,7 +408,7 @@ const Customers = () => {
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Address
                   </label>
@@ -417,7 +420,7 @@ const Customers = () => {
                     rows="3"
                     className="input-field mt-1"
                   />
-                </div>
+                </div> */}
 
                 <div className="mb-3">
                   <label htmlFor="modelName" className="form-label">
@@ -446,11 +449,9 @@ const Customers = () => {
                     // onChange={(e) => setType(e.target.value)}
                   >
                     <option defaultValue>Choose Repair</option>
+                    <option value="LCD Replacement">LCD Replacement</option>
                     <option value="Battery Replacement">
                       Battery Replacement
-                    </option>
-                    <option value="Display + Glass Replacement">
-                      Display + Glass Replacement
                     </option>
                     <option value="Speaker Replacement">
                       Speaker Replacement
@@ -469,6 +470,13 @@ const Customers = () => {
                     </option>
                     <option value="Body Housing Replacement">
                       Body Housing Replacement
+                    </option>
+                    <option value="Charging Port Cleaning">
+                      Charging Port Cleaning
+                    </option>
+                    <option value="Service">Service</option>
+                    <option value="Factory Reset Data Removal and Pass confirmed">
+                      Factory Reset Data Removal and Pass confirmed
                     </option>
                   </select>
                 </div>
