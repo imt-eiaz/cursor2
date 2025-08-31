@@ -157,6 +157,21 @@ const insertSampleData = async () => {
       `);
       console.log("Sample inventory inserted successfully");
     }
+    // Reset sequences to max id for all tables with SERIAL PRIMARY KEY
+    const tables = [
+      "phones",
+      "customers",
+      "items",
+      "inventory",
+      "sales",
+      "users",
+    ];
+    for (const table of tables) {
+      const seq = `${table}_id_seq`;
+      await pool.query(`
+        SELECT setval(pg_get_serial_sequence('${table}', 'id'), COALESCE(MAX(id), 1), true) FROM ${table};
+      `);
+    }
   } catch (error) {
     console.error("Error inserting sample data:", error);
   }

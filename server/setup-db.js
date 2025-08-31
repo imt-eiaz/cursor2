@@ -162,12 +162,12 @@ async function setupDatabase() {
 
       // Insert sample customers
       await client.query(`
-        INSERT INTO customers (first_name, last_name, email, phone, address, status, product) VALUES
-        ('John', 'Doe', 'john@example.com', '555-0101', '123 Main St, City', 'do do'),
-        ('Jane', 'Smith', 'jane@example.com', '555-0102', '456 Oak Ave, Town', 'di di'),
-        ('Mike', 'Johnson', 'mike@example.com', '555-0103', '789 Pine Rd, Village', 'da da'),
-        ('Sarah', 'Williams', 'sarah@example.com', '555-0104', '321 Elm St, Borough', 'dd dd'),
-        ('David', 'Brown', 'david@example.com', '555-0105', '654 Maple Dr, District', 'dang dang')
+        INSERT INTO customers (first_name, last_name, phone, address, status, product) VALUES
+        ('John', 'Doe', '555-0101', '123 Main St, City', 'do do'),
+        ('Jane', 'Smith', '555-0102', '456 Oak Ave, Town', 'di di'),
+        ('Mike', 'Johnson',  '555-0103', '789 Pine Rd, Village', 'da da'),
+        ('Sarah', 'Williams', '555-0104', '321 Elm St, Borough', 'dd dd'),
+        ('David', 'Brown', '555-0105', '654 Maple Dr, District', 'dang dang')
       `);
       console.log("✅ Sample customers inserted");
 

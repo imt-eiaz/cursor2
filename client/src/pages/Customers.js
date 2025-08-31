@@ -219,6 +219,7 @@ const Customers = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
+                <th className="table-header">Actions</th>
                 <th className="table-header">ID</th>
                 <th className="table-header">Date</th>
                 <th className="table-header">Name</th>
@@ -230,12 +231,28 @@ const Customers = () => {
                 <th className="table-header">Price</th>
                 <th className="table-header">Note</th>
                 <th className="table-header">Status</th>
-                <th className="table-header">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredCustomers.map((customer) => (
                 <tr key={customer.id} className="hover:bg-gray-50">
+                  <td className="table-cell">
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => handleEdit(customer)}
+                        className="text-green-600 hover:text-green-900 p-1"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(customer.id)}
+                        className="text-red-600 hover:text-red-900 p-1"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </td>
+
                   <td className="table-cell">
                     <div className="flex items-center">
                       <div className="ml-2">
@@ -301,22 +318,6 @@ const Customers = () => {
                     {(customer.note || "").substring(0, 15)}
                   </td>
                   <td className="table-cell">{customer.status}</td>
-                  <td className="table-cell">
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => handleEdit(customer)}
-                        className="text-green-600 hover:text-green-900 p-1"
-                      >
-                        <Edit className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(customer.id)}
-                        className="text-red-600 hover:text-red-900 p-1"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </td>
                 </tr>
               ))}
             </tbody>

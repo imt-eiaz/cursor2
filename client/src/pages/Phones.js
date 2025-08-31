@@ -161,7 +161,7 @@ const Phones = () => {
           className="btn-primary flex items-center space-x-2"
         >
           <Plus className="h-5 w-5" />
-          <span>Add Phone</span>
+          <span>Add / Sale Phone</span>
         </button>
       </div>
 
@@ -381,7 +381,7 @@ const Phones = () => {
         </div>
         <input
           type="text"
-          placeholder="Search customers by name, email, or phone..."
+          placeholder="Search customers by name, mobile or phone..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="input-field pl-10"
