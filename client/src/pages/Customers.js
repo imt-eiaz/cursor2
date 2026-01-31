@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { getCustomers } from "../services/apiClients";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
@@ -29,6 +30,20 @@ const Customers = () => {
     note: "",
     status: "",
   });
+
+  const [myCustomers, setMyCustomers] = useState([]);
+
+  useEffect(() => {
+    getCustomers()
+      .then((data) => {
+        setMyCustomers(data || []);
+      })
+      .catch((err) => {
+        console.error(err);
+        setMyCustomers([]);
+      });
+  }, []);
+  // console.log(myCustomers);
 
   useEffect(() => {
     fetchCustomers();
@@ -216,6 +231,10 @@ const Customers = () => {
       {/* Customers Table */}
       <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
+          {/* Copied Customers Table */}
+
+          {/* Origional Customers Table */}
+
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
@@ -380,21 +399,6 @@ const Customers = () => {
                   </div>
                 </div>
 
-                {/* <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Email
-                  </label>
-                  <input
-                    type="text"
-                    // required
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    className="input-field mt-1"
-                  />
-                </div> */}
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Phone
@@ -408,20 +412,6 @@ const Customers = () => {
                     className="input-field mt-1"
                   />
                 </div>
-
-                {/* <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Address
-                  </label>
-                  <textarea
-                    value={formData.address}
-                    onChange={(e) =>
-                      setFormData({ ...formData, address: e.target.value })
-                    }
-                    rows="3"
-                    className="input-field mt-1"
-                  />
-                </div> */}
 
                 <div className="mb-3">
                   <label htmlFor="modelName" className="form-label">
@@ -446,8 +436,6 @@ const Customers = () => {
                     }
                     className="mb-3 input-field  mt-4"
                     aria-label="Choose Repair Type"
-                    // id="repairType"
-                    // onChange={(e) => setType(e.target.value)}
                   >
                     <option defaultValue>Choose Repair</option>
                     <option value="LCD Replacement">LCD Replacement</option>
@@ -533,7 +521,6 @@ const Customers = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, status: e.target.value })
                     }
-                    // onChange={(e) => setBrand(e.target.value)}
                   >
                     <option selected>Choose status</option>
                     <option value="COMPLETED">COMPLETED</option>
