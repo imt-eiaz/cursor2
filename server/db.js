@@ -1,13 +1,40 @@
 const { Pool } = require("pg");
 require("dotenv").config();
 
+// Database Configuration (commented after placeing the supabase info below need to restore once needed)
+
+// const pool = new Pool({
+//   user: process.env.DB_USER || "postgres",
+//   host: process.env.DB_HOST || "localhost",
+//   database: process.env.DB_NAME || "phone_repair_shop",
+//   password: process.env.DB_PASSWORD || "password",
+//   port: process.env.DB_PORT || 5432,
+// });
+
+// to be un commented when not work
+// const pool = new Pool({
+//   user: process.env.DB_USER || "postgres",
+//   host: process.env.DB_HOST || "db.odbcchntrqbvhvvqowfz.supabase.co",
+//   database: process.env.DB_NAME || "postgres",
+//   password: process.env.DB_PASSWORD || "Swatly07092025#",
+//   port: process.env.DB_PORT || 5432,
+// });
+
+
+// To be deleted once not worked
+const { Pool } = require("pg");
+
 const pool = new Pool({
-  user: process.env.DB_USER || "postgres",
-  host: process.env.DB_HOST || "localhost",
-  database: process.env.DB_NAME || "phone_repair_shop",
-  password: process.env.DB_PASSWORD || "password",
-  port: process.env.DB_PORT || 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
+
+module.exports = pool;
+
+
 
 // Create tables if they don't exist
 const createTables = async () => {
