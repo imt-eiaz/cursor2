@@ -20,21 +20,25 @@ require("dotenv").config();
 //   port: process.env.DB_PORT || 5432,
 // });
 
-
 // To be deleted once not worked
-const { Pool } = require("pg");
+// const { Pool } = require("pg");
+
+// const pool = new Pool({
+//   user: process.env.DB_USER,
+//   host: process.env.DB_HOST,he connection string still valid
+//   database: process.env.DB_NAME,
+//   password: process.env.DB_PASSWORD,
+//   port: process.env.DB_PORT,
+// });
+
+// module.exports = pool;
 
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  connectionString:
+    process.env.DATABASE_URL ||
+    `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+  ssl: { rejectUnauthorized: false },
 });
-
-module.exports = pool;
-
-
 
 // Create tables if they don't exist
 const createTables = async () => {
