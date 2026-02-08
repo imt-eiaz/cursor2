@@ -36,7 +36,9 @@ const Items = () => {
   const fetchItems = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://44.195.141.80:5000/api/items");
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/items`,
+      );
       setItems(response.data);
     } catch (error) {
       console.error("Error fetching items:", error);
@@ -52,12 +54,15 @@ const Items = () => {
     try {
       if (editingItem) {
         await axios.put(
-          `http://44.195.141.80:5000/api/items/${editingItem.id}`,
+          `${process.env.REACT_APP_API_URL}/api/items/${editingItem.id}`,
           formData,
         );
         toast.success("Item updated successfully");
       } else {
-        await axios.post("http://44.195.141.80:5000/api/items", formData);
+        await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/items`,
+          formData,
+        );
         toast.success("Item created successfully");
       }
 
@@ -140,7 +145,9 @@ const Items = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Items</h1>
-          <p className="text-gray-600">Manage your products and services</p>
+          <p className="text-gray-600">
+            Phonebox Manage your products and services
+          </p>
         </div>
         <button
           onClick={openNewItemModal}
