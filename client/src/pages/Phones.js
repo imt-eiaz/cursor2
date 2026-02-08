@@ -36,13 +36,13 @@ const Phones = () => {
   // Calculate total price of all phones
   const totalPrice = phones.reduce(
     (acc, phone) => acc + (parseFloat(phone.price) || 0),
-    0
+    0,
   );
 
   const fetchPhones = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/phones");
+      const response = await axios.get("http://44.195.141.80:5000/api/phones");
       setPhones(response.data);
     } catch (error) {
       console.error("Error fetching phones:", error);
@@ -68,12 +68,12 @@ const Phones = () => {
         // Prevent IMEI from being changed during edit
         submitData.imei = editingPhone.imei;
         await axios.put(
-          `http://localhost:5000/api/phones/${editingPhone.id}`,
-          submitData
+          `http://44.195.141.80:5000/api/phones/${editingPhone.id}`,
+          submitData,
         );
         toast.success("Phone updated successfully");
       } else {
-        await axios.post("http://localhost:5000/api/phones", submitData);
+        await axios.post("http://44.195.141.80:5000/api/phones", submitData);
         toast.success("Phone created successfully");
       }
       setShowModal(false);
@@ -102,7 +102,7 @@ const Phones = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this phone?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/phones/${id}`);
+        await axios.delete(`http://44.195.141.80:5000/api/phones/${id}`);
         toast.success("Phone deleted successfully");
         fetchPhones();
       } catch (error) {

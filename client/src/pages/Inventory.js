@@ -21,7 +21,9 @@ const Inventory = () => {
   const fetchInventory = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/inventory");
+      const response = await axios.get(
+        "http://44.195.141.80:5000/api/inventory",
+      );
       setInventory(response.data);
     } catch (error) {
       console.error("Error fetching inventory:", error);
@@ -125,7 +127,7 @@ const Inventory = () => {
               <p className="text-2xl font-semibold text-gray-900">
                 {
                   inventory.filter(
-                    (item) => item.stock_status === "Out of Stock"
+                    (item) => item.stock_status === "Out of Stock",
                   ).length
                 }
               </p>
@@ -185,7 +187,7 @@ const Inventory = () => {
                   <td className="table-cell">
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStockStatusColor(
-                        item.stock_status
+                        item.stock_status,
                       )}`}
                     >
                       {item.stock_status}

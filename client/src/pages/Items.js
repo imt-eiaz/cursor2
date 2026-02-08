@@ -36,7 +36,7 @@ const Items = () => {
   const fetchItems = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/items");
+      const response = await axios.get("http://44.195.141.80:5000/api/items");
       setItems(response.data);
     } catch (error) {
       console.error("Error fetching items:", error);
@@ -52,12 +52,12 @@ const Items = () => {
     try {
       if (editingItem) {
         await axios.put(
-          `http://localhost:5000/api/items/${editingItem.id}`,
-          formData
+          `http://44.195.141.80:5000/api/items/${editingItem.id}`,
+          formData,
         );
         toast.success("Item updated successfully");
       } else {
-        await axios.post("http://localhost:5000/api/items", formData);
+        await axios.post("http://44.195.141.80:5000/api/items", formData);
         toast.success("Item created successfully");
       }
 
@@ -87,7 +87,7 @@ const Items = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/items/${id}`);
+        await axios.delete(`http://44.195.141.80:5000/api/items/${id}`);
         toast.success("Item deleted successfully");
         fetchItems();
       } catch (error) {

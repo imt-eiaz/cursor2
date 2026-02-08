@@ -22,7 +22,7 @@ const Sales = () => {
   const fetchSales = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/sales");
+      const response = await axios.get("http://44.195.141.80:5000/api/sales");
       setSales(response.data);
     } catch (error) {
       console.error("Error fetching sales:", error);
@@ -180,7 +180,7 @@ const Sales = () => {
                   {sales
                     .reduce(
                       (sum, sale) => sum + parseFloat(sale.total_amount),
-                      0
+                      0,
                     )
                     .toFixed(2)}
                 </p>
