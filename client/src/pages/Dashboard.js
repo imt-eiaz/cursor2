@@ -33,29 +33,33 @@ const Dashboard = () => {
 
       // Fetch customers count
       const customersResponse = await axios.get(
-        "http://localhost:5000/api/customers"
+        "http://44.192.141.80:5000/api/customers",
       );
 
       // Fetch items count
-      const itemsResponse = await axios.get("http://localhost:5000/api/items");
+      const itemsResponse = await axios.get(
+        "http://44.195.141.80:5000/api/items",
+      );
 
       // Fetch recent sales
-      const salesResponse = await axios.get("http://localhost:5000/api/sales");
+      const salesResponse = await axios.get(
+        "http://44.195.141.80:5000/api/sales",
+      );
 
       // Fetch inventory summary
       const inventoryResponse = await axios.get(
-        "http://localhost:5000/api/inventory/summary"
+        "http://44.195.141.80:5000/api/inventory/summary",
       );
 
       // Fetch low stock items
       const lowStockResponse = await axios.get(
-        "http://localhost:5000/api/inventory/low-stock"
+        "http://44.195.141.80:5000/api/inventory/low-stock",
       );
 
       // Calculate revenue from sales
       const totalRevenue = salesResponse.data.reduce(
         (sum, sale) => sum + parseFloat(sale.total_amount),
-        0
+        0,
       );
 
       setStats({
