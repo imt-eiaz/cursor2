@@ -11,6 +11,9 @@ import {
 import axios from "axios";
 import toast from "react-hot-toast";
 
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+
 const Dashboard = () => {
   const [stats, setStats] = useState({
     customers: 0,
@@ -33,27 +36,23 @@ const Dashboard = () => {
 
       // Fetch customers count
       const customersResponse = await axios.get(
-        "http://44.192.141.80:5000/api/customers",
+        `${API_BASE_URL}/api/customers`,
       );
 
       // Fetch items count
-      const itemsResponse = await axios.get(
-        "http://44.195.141.80:5000/api/items",
-      );
+      const itemsResponse = await axios.get(`${API_BASE_URL}/api/items`);
 
       // Fetch recent sales
-      const salesResponse = await axios.get(
-        "http://44.195.141.80:5000/api/sales",
-      );
+      const salesResponse = await axios.get(`${API_BASE_URL}/api/sales`);
 
       // Fetch inventory summary
       const inventoryResponse = await axios.get(
-        "http://44.195.141.80:5000/api/inventory/summary",
+        `${API_BASE_URL}/api/inventory/summary`,
       );
 
       // Fetch low stock items
       const lowStockResponse = await axios.get(
-        "http://44.195.141.80:5000/api/inventory/low-stock",
+        `${API_BASE_URL}/api/inventory/low-stock`,
       );
 
       // Calculate revenue from sales
