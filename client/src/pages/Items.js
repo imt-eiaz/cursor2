@@ -92,7 +92,7 @@ const Items = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
       try {
-        await axios.delete(`http://44.195.141.80:5000/api/items/${id}`);
+        await axios.delete(`${process.env.REACT_APP_API_URL}/api/items/${id}`);
         toast.success("Item deleted successfully");
         fetchItems();
       } catch (error) {

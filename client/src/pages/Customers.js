@@ -53,7 +53,7 @@ const Customers = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "http://44.195.141.80:5000/api/customers",
+        `${process.env.REACT_APP_API_URL}/api/customers`,
       );
       setCustomers(response.data);
     } catch (error) {
@@ -84,7 +84,7 @@ const Customers = () => {
 
       if (editingCustomer) {
         await axios.put(
-          `http://44.195.141.80:5000/api/customers/${editingCustomer.id}`,
+          `${process.env.REACT_APP_API_URL}/api/customers/${editingCustomer.id}`,
           data,
         );
         toast.success("Customer updated successfully");
@@ -98,7 +98,10 @@ const Customers = () => {
             delete createData[key];
           }
         });
-        await axios.post("http://44.195.141.80:5000/api/customers", createData);
+        await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/customers`,
+          createData,
+        );
         toast.success("Customer created successfully");
       }
 
@@ -142,7 +145,9 @@ const Customers = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this customer?")) {
       try {
-        await axios.delete(`http://44.195.141.80:5000/api/customers/${id}`);
+        await axios.delete(
+          `${process.env.REACT_APP_API_URL}/api/customers/${id}`,
+        );
         toast.success("Customer deleted successfully");
         fetchCustomers();
       } catch (error) {

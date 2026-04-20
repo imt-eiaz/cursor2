@@ -22,7 +22,7 @@ const Inventory = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "http://44.195.141.80:5000/api/inventory",
+        `${process.env.REACT_APP_API_URL}/api/inventory`,
       );
       setInventory(response.data);
     } catch (error) {
