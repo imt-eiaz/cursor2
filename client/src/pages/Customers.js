@@ -195,7 +195,7 @@ const Customers = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Customers</h1>
-          <p className="text-gray-600">Manage Customers</p>
+          <p className="text-gray-600">Manage PhoneBox Customers</p>
           <button
             onClick={openNewCustomerModal}
             className="btn-primary flex items-center space-x-2 mt-5"
