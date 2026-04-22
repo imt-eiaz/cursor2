@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Plus,
-  Search,
   Edit,
   Trash2,
   ShoppingCart,
