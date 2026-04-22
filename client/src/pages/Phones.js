@@ -136,13 +136,20 @@ const Phones = () => {
   };
 
   // Filtered phones for search
-  const filteredPhones = phones.filter((phone) => {
+  const filteredPhones = phones.filter((item) => {
     const term = searchTerm.toLowerCase();
     return (
-      (phone.brand && phone.brand.toLowerCase().includes(term)) ||
-      (phone.model && phone.model.toLowerCase().includes(term)) ||
-      (phone.imei && phone.imei.toLowerCase().includes(term)) ||
-      (phone.status && phone.status.toLowerCase().includes(term))
+      (item.brand && item.brand.toLowerCase().includes(term)) ||
+      (item.model && item.model.toLowerCase().includes(term)) ||
+      (item.color && item.color.toLowerCase().includes(term)) ||
+      (item.imei && item.imei.toLowerCase().includes(term)) ||
+      (item.price && item.price.toString().toLowerCase().includes(term)) ||
+      (item.status && item.status.toLowerCase().includes(term)) ||
+      (item.created_at &&
+        new Date(item.created_at)
+          .toLocaleDateString()
+          .toLowerCase()
+          .includes(term))
     );
   });
 
@@ -487,55 +494,36 @@ const Phones = () => {
                   </td>
                 </tr>
               ) : (
-                phones
-                  .filter((item) => {
-                    const term = searchTerm.toLowerCase();
-                    return (
-                      (item.brand && item.brand.toLowerCase().includes(term)) ||
-                      (item.model && item.model.toLowerCase().includes(term)) ||
-                      (item.color && item.color.toLowerCase().includes(term)) ||
-                      (item.imei && item.imei.toLowerCase().includes(term)) ||
-                      (item.price &&
-                        item.price.toString().toLowerCase().includes(term)) ||
-                      (item.status &&
-                        item.status.toLowerCase().includes(term)) ||
-                      (item.created_at &&
-                        new Date(item.created_at)
-                          .toLocaleDateString()
-                          .toLowerCase()
-                          .includes(term))
-                    );
-                  })
-                  .map((item) => (
-                    <tr key={item.id}>
-                      <td className="table-cell">
-                        {item.brand} {item.model}
-                      </td>
-                      <td className="table-cell">{item.color}</td>
-                      <td className="table-cell">{item.imei}</td>
-                      <td className="table-cell">{item.price}</td>
-                      <td className="table-cell">{item.status}</td>
-                      <td className="table-cell">
-                        {new Date(item.created_at).toLocaleDateString()}
-                      </td>
-                      <td className="table-cell">
-                        <button
-                          className="btn-icon"
-                          onClick={() => handleEdit(item)}
-                          title="Edit"
-                        >
-                          <Edit className="h-4 w-4" />
-                        </button>
-                        <button
-                          className="btn-icon ml-2"
-                          onClick={() => handleDelete(item.id)}
-                          title="Delete"
-                        >
-                          <Trash2 className="h-4 w-4 text-red-600" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
+                filteredPhones.map((item) => (
+                  <tr key={item.id}>
+                    <td className="table-cell">
+                      {item.brand} {item.model}
+                    </td>
+                    <td className="table-cell">{item.color}</td>
+                    <td className="table-cell">{item.imei}</td>
+                    <td className="table-cell">{item.price}</td>
+                    <td className="table-cell">{item.status}</td>
+                    <td className="table-cell">
+                      {new Date(item.created_at).toLocaleDateString()}
+                    </td>
+                    <td className="table-cell">
+                      <button
+                        className="btn-icon"
+                        onClick={() => handleEdit(item)}
+                        title="Edit"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </button>
+                      <button
+                        className="btn-icon ml-2"
+                        onClick={() => handleDelete(item.id)}
+                        title="Delete"
+                      >
+                        <Trash2 className="h-4 w-4 text-red-600" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
               )}
             </tbody>
           </table>
