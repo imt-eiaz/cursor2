@@ -1,0 +1,42 @@
+name: CICD pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy_code:
+    name: deploy_code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
+      - name: Deploy to AWS
+        uses: easingthemes/aws-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SOURCE: "."
+          REMOTE_HOST: ec2-13-61-33-241.eu-north-1.compute.amazonaws.com
+          REMOTE_USER: "ubuntu"
+          TARGET: "/var/www/cursor2/"
+
+        # run: |
+        # Add your deployment commands here, for example:
+        # aws s3 cp ./build s3://your-bucket-name --recursive
+        # echo "Deploying to AWS..."
