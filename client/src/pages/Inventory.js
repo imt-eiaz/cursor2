@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Plus,
-  Search,
-  Edit,
-  BarChart3,
-  AlertTriangle,
-  Package,
-} from "lucide-react";
+import { Plus, Edit, BarChart3, AlertTriangle, Package } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
