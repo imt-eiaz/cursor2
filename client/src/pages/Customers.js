@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { getCustomers } from "../services/apiClients";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
@@ -30,20 +29,6 @@ const Customers = () => {
     note: "",
     status: "",
   });
-
-  const [myCustomers, setMyCustomers] = useState([]);
-
-  useEffect(() => {
-    getCustomers()
-      .then((data) => {
-        setMyCustomers(data || []);
-      })
-      .catch((err) => {
-        console.error(err);
-        setMyCustomers([]);
-      });
-  }, []);
-  // console.log(myCustomers);
 
   useEffect(() => {
     fetchCustomers();
