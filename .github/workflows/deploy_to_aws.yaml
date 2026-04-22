@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Deploy to AWS
-        uses: easingthemes/aws-deploy@v2.1.5
+        uses: easingthemes/ssh-deploy@v5.0.3
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SOURCE: "."
