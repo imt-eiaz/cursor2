@@ -443,7 +443,7 @@ const Phones = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Purchased</p>
               <p className="text-2xl font-semibold text-gray-900">
-                £989
+                £0000
                 {/* {
                   phone.filter((item) => item.stock_status === "Low Stock")
                     .length
@@ -461,7 +461,7 @@ const Phones = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Sold</p>
               <p className="text-2xl font-semibold text-gray-900">
-                £1090
+                £0000
                 {/* {
                   phone.filter((item) => item.stock_status === "Out of Stock")
                     .length
